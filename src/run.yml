@@ -1,0 +1,11 @@
+version: "3.0"
+
+services:
+  peer:
+    build:
+      context: ./peer
+      dockerfile: normal-peer.Dockerfile
+    tty: true
+    deploy:
+      mode: replicated
+      replicas: 10
