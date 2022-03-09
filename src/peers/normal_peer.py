@@ -3,7 +3,7 @@ import random
 import time
 from datetime import datetime
 
-from peer import Peer
+from .peer import Peer
 
 
 class NormalPeer(Peer):
@@ -21,7 +21,7 @@ class NormalPeer(Peer):
 		if msg == "new":
 			print(f"A new peer has joined the network ({address})")
 		# elif msg == "bye":
-		#    print(f"A peer has leaved the network ({address})")
+		#    print(f"A peers has leaved the network ({address})")
 		#    known_peers.remove(address)
 		elif msg == "hello":
 			print(f"Received hello packet from {address}")
@@ -36,7 +36,7 @@ class NormalPeer(Peer):
 		for (address, last_response) in self.known_peers.copy().items():
 			time_passed = (datetime.now() - last_response).seconds
 			if time_passed >= self.seconds_to_be_dead:
-				# This peer is considered dead
+				# This peers is considered dead
 				print(f"{address} is dead")
 				del self.known_peers[address]
 			elif time_passed >= self.max_seconds_without_answers:

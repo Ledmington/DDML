@@ -1,4 +1,4 @@
-from peer import Peer
+from .peer import Peer
 
 
 class DeadPeer(Peer):
