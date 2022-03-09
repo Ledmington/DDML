@@ -1,0 +1,14 @@
+Generate and install requirements:
+  stage: build
+  tags:
+  - python
+  script:
+  - pip install pipreqs
+  - pipreqs
+  - pip install -r requirements.txt
+
+Test Ubuntu:
+  stage: test
+  tags:
+  - ubuntu
+  script: pytest
