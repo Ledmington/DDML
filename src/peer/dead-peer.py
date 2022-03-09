@@ -1,5 +1,6 @@
 from peer import Peer
 
+
 class DeadPeer(Peer):
 	def main_loop(self):
 		self._assert_alive()
@@ -7,6 +8,7 @@ class DeadPeer(Peer):
 		self.s.sendto("new".encode(), ("<broadcast>", self.port))
 		self.die()
 		print("Peer dead")
+
 
 if __name__ == "__main__":
 	p = DeadPeer()

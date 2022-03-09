@@ -5,10 +5,11 @@ from datetime import datetime
 
 from peer import Peer
 
+
 class NormalPeer(Peer):
 	def __init__(self):
 		Peer.__init__(self)
-		time.sleep(random.uniform(0,5))
+		time.sleep(random.uniform(0, 5))
 
 	def parse_request(self, msg, address):
 		if address == self.peer_ip:
@@ -19,7 +20,7 @@ class NormalPeer(Peer):
 
 		if msg == "new":
 			print(f"A new peer has joined the network ({address})")
-		#elif msg == "bye":
+		# elif msg == "bye":
 		#    print(f"A peer has leaved the network ({address})")
 		#    known_peers.remove(address)
 		elif msg == "hello":
@@ -56,6 +57,7 @@ class NormalPeer(Peer):
 			except socket.timeout:
 				print(f"{self.seconds_to_wait} seconds without answer")
 				self.check_dead_peers()
+
 
 if __name__ == "__main__":
 	p = NormalPeer()

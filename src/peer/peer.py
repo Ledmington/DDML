@@ -1,12 +1,13 @@
 import socket
 
+
 class Peer:
 	def __init__(self,
-				 port=10000,
-				 bufsize=1024,
-				 seconds_wait=5,
-				 silence_interval=10,
-				 dead_interval=30):
+				port=10000,
+				bufsize=1024,
+				seconds_wait=5,
+				silence_interval=10,
+				dead_interval=30):
 		self.known_peers = dict()
 		self.port = port
 		self.bufsize = bufsize
@@ -23,12 +24,12 @@ class Peer:
 		self.peer_ip = socket.gethostbyname(socket.gethostname())
 
 		self.alive = True
-	
+
 	def _assert_alive(self):
 		if not self.alive:
 			raise Exception("peer is not alive")
-	
-	def parse_request(self, msg:str, address:str):
+
+	def parse_request(self, msg: str, address: str):
 		pass
 
 	def check_dead_peers(self):
