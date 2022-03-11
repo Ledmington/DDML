@@ -3,7 +3,7 @@ import random
 import time
 from datetime import datetime
 
-from .peer import Peer
+from ddml.peers.peer import Peer
 
 
 class NormalPeer(Peer):

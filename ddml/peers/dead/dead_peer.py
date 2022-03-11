@@ -1,4 +1,4 @@
-from .peer import Peer
+from ddml.peers.peer import Peer
 
 
 class DeadPeer(Peer):

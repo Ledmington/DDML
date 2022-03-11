@@ -3,8 +3,8 @@ version: "3.0"
 services:
   peer:
     build:
-      context: peers
-      dockerfile: peers/normal/normal_peer.Dockerfile
+      context: .
+      dockerfile: normal_peer.Dockerfile
     tty: true
     deploy:
       mode: replicated
