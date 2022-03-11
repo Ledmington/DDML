@@ -2,7 +2,6 @@ version: "3.0"
 
 services:
   peer:
-    container_name: peer
     build:
       context: .
       dockerfile: normal_peer.Dockerfile
