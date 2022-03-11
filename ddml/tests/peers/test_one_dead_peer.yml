@@ -1,0 +1,18 @@
+version: "3.0"
+
+services:
+  peer:
+    container_name: peer
+    build:
+      context: ../../..
+      dockerfile: normal_peer.Dockerfile
+    tty: true
+  
+  dead-peer:
+    container_name: dead_peer
+    depends_on:
+      - peer
+    build:
+      context: ../../..
+      dockerfile: dead_peer.Dockerfile
+    tty: true
