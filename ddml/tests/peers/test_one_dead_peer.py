@@ -15,8 +15,8 @@ def test_one_dead_peer():
 	compose_file = "test_one_dead_peer.yml"
 
 	with DockerCompose(os.sep.join([ROOT_DIR, "tests", "peers"]),
-					   compose_file_name=[compose_file],
-					   pull=True) as compose:
+						compose_file_name=[compose_file],
+						pull=True) as compose:
 		time.sleep(time_to_wait)
 		stdout, stderr = compose.get_logs()
 		if stderr:
