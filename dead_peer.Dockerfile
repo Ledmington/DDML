@@ -18,7 +18,7 @@ COPY . /home
 WORKDIR /home
 
 # Installing actual project dependencies
-RUN poetry install
+RUN poetry install --no-dev
 
 # Launching the normal peer
 CMD poetry run python3 ddml/peers/dead/dead_peer.py
