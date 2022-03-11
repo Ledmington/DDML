@@ -3,3 +3,6 @@
 *.pdf
 .idea/
 poetry.lock
+dist/
+cov_report/
+.coverage*
