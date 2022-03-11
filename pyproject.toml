@@ -6,6 +6,7 @@ authors = ["Filippo Barbari <filippo.barbari@studio.unibo.it>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
+testcontainers = "^3.4.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
