@@ -9,12 +9,8 @@ on:
       - dev
 
 jobs:
-  Tests:
-    strategy:
-      matrix:
-        os: ["ubuntu-latest", "macos-latest", "windows-latest"]
-    name: Full test on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
+  full-test:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
