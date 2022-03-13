@@ -18,11 +18,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set up Python
+      - name: Setup Python
         uses: actions/setup-python@v2
         with:
           python-version: 3.9
           architecture: x64
+
+      - name: Setup Docker
+        uses: docker-practice/actions-setup-docker@master
 
       - name: Install poetry
         run: pip install poetry
