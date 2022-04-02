@@ -1,3 +1,5 @@
+.PHONY: cov
+
 cov:
 	# Generate coverage report
 	poetry run pytest --cov-report html:cov_report --cov=.
