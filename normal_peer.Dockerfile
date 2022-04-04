@@ -20,5 +20,8 @@ WORKDIR /home
 # Installing actual project dependencies
 RUN poetry install --no-dev
 
+# Cleaning up
+RUN rm -rf /var/cache/apk/*
+
 # Launching the normal peer
 CMD poetry run python3 ddml/peers/normal/normal_peer.py
