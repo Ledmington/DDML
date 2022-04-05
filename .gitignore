@@ -6,3 +6,4 @@ poetry.lock
 dist/
 cov_report/
 .coverage*
+venv

@@ -2,6 +2,7 @@ import os
 import time
 import pytest
 from testcontainers.compose import DockerCompose
+from testcontainers.core.waiting_utils import wait_for_logs
 
 from ddml import ROOT_DIR
 from ddml.peers.peer import Peer
@@ -15,15 +16,18 @@ def test_one_dead_peer():
 	compose_file = "test_one_dead_peer.yml"
 
 	with DockerCompose(os.sep.join([ROOT_DIR, "tests", "peers"]),
-						compose_file_name=[compose_file],
-						pull=True) as compose:
+						compose_file_name=[compose_file]) as compose:
+		wait_for_logs(compose, r".* is dead")
+		'''
 		time.sleep(time_to_wait)
 		stdout, stderr = compose.get_logs()
 		if stderr:
 			print(stderr)
 			pytest.fail()
+		
 
 	lines = stdout.decode("utf-8").split("\r\n")
 	lines = list(filter(lambda s: s.startswith("peer"), lines))
 	message = list(filter(lambda s: s.endswith(" is dead"), lines))
 	assert len(message) == 1
+	'''

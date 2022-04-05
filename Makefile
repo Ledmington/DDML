@@ -12,4 +12,5 @@ cov:
 	open cov_report/index.html 2>/dev/null
 
 clean:
-	rm -rf cov_report dist .coverage* **/__pycache__ **/.pytest_cache
+	rm -rf cov_report dist .coverage*
+	rm -rf **/__pycache__ **/.pytest_cache
