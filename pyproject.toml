@@ -9,7 +9,7 @@ python = "^3.9"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
-testcontainers = "^3.4.2"
+testcontainers = "^3.5.3"
 pytest-cov = "^3.0.0"
 
 [build-system]
