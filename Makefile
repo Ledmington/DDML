@@ -10,4 +10,4 @@ cov:
 
 clean:
 	rm -rf cov_report dist .coverage*
-	rm -rf **/__pycache__ **/.pytest_cache
+	rm -rf ./*/__pycache__ ./*/.pytest_cache
