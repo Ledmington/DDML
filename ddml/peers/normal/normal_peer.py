@@ -1,6 +1,4 @@
 import socket
-import random
-import time
 from datetime import datetime
 
 from ddml.peers.peer import Peer
@@ -9,7 +7,6 @@ from ddml.peers.peer import Peer
 class NormalPeer(Peer):
     def __init__(self):
         Peer.__init__(self)
-        time.sleep(random.uniform(0, 5))
 
     def parse_request(self, msg, address):
         if address == self.peer_ip:
