@@ -2,6 +2,9 @@ stages:
   - build
   - test
 
+default:
+  image: python:alpine3.15
+
 poetry-install:
   stage: build
   script:
