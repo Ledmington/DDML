@@ -1,9 +1,22 @@
+# Python caches
 **/__pycache__
 **/.pytest_cache
-*.pdf
-.idea/
+
+# Poetry build files
 poetry.lock
 dist/
+
+# Coverage report
 cov_report/
 .coverage*
+
+# Virtual environment
 venv
+
+# Documentation
+doc/
+!doc/*.tex
+
+# Misc
+*.pdf
+.idea/
