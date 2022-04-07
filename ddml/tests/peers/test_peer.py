@@ -15,6 +15,13 @@ def test_peer_can_die():
         p._assert_alive()
 
 
+def test_peer_cant_die_twice():
+    p = Peer()
+    p.die()
+    with pytest.raises(ValueError):
+        p.die()
+
+
 def test_port_is_int():
     for x in [None, "abc", 1.5, [], (), dict(), set()]:
         with pytest.raises(TypeError):
