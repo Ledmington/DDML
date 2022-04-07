@@ -14,4 +14,5 @@ format:
 
 clean:
 	rm -rf cov_report dist .coverage*
-	rm -rf ./*/__pycache__ ./*/.pytest_cache
+	find ./ddml | grep __pycache__$ | xargs rm -rf
+	find ./ | grep .pytest_cache$ | xargs rm -rf
