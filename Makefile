@@ -8,6 +8,10 @@ cov:
 	# Generate coverage report
 	poetry run pytest --cov-report html:cov_report --cov=.
 
+format:
+	# Re-format code to avoid IndentationErrors
+	poetry run black ddml
+
 clean:
 	rm -rf cov_report dist .coverage*
 	rm -rf ./*/__pycache__ ./*/.pytest_cache
