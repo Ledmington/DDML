@@ -1,0 +1,13 @@
+stages:
+  - build
+  - test
+
+poetry-install:
+  stage: build
+  script:
+    - poetry install
+
+pytest:
+  stage: test
+  script:
+    - poetry run pytest
