@@ -4,12 +4,14 @@ from ddml.utils.utils import assert_int
 
 
 class Peer:
-    def __init__(self,
-                 port=10000,
-                 bufsize=1024,
-                 seconds_wait=5,
-                 silence_interval=10,
-                 dead_interval=30):
+    def __init__(
+        self,
+        port=10000,
+        bufsize=1024,
+        seconds_wait=5,
+        silence_interval=10,
+        dead_interval=30,
+    ):
         self.port = assert_int(port, lambda x: 0 < x < 65536)
         self.bufsize = assert_int(bufsize, lambda x: x > 0)
         self.seconds_to_wait = assert_int(seconds_wait, lambda x: x > 0)
