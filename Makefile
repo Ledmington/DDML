@@ -1,3 +1,5 @@
+RUN=poetry run
+
 .PHONY: cov
 
 build:
@@ -6,11 +8,15 @@ build:
 
 cov:
 	# Generate coverage report
-	poetry run pytest --cov-report html:cov_report --cov=.
+	${RUN} pytest --cov-report html:cov_report --cov=.
 
 format:
 	# Re-format code to avoid IndentationErrors
-	poetry run black ddml
+	${RUN} black ddml
+
+mut:
+	# Run full mutation testing
+	${RUN} mutmut run
 
 clean:
 	rm -rf cov_report dist .coverage*
