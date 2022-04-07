@@ -1,11 +1,6 @@
-def assert_int(value):
+def assert_int(value, predicate=None):
     if type(value) is not int:
         raise TypeError
-    return value
-
-
-def assert_int_pred(value, predicate):
-    assert_int(value)
-    if not predicate(value):
+    if predicate is not None and not predicate(value):
         raise ValueError
     return value

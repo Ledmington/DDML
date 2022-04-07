@@ -1,6 +1,6 @@
 import socket
 
-from ddml.utils.utils import assert_int_pred
+from ddml.utils.utils import assert_int
 
 
 class Peer:
@@ -10,11 +10,11 @@ class Peer:
                  seconds_wait=5,
                  silence_interval=10,
                  dead_interval=30):
-        self.port = assert_int_pred(port, lambda x: 0 < x < 65536)
-        self.bufsize = assert_int_pred(bufsize, lambda x: x > 0)
-        self.seconds_to_wait = assert_int_pred(seconds_wait, lambda x: x > 0)
-        self.max_seconds_without_answers = assert_int_pred(silence_interval, lambda x: x > 0)
-        self.seconds_to_be_dead = assert_int_pred(dead_interval, lambda x: x > 0)
+        self.port = assert_int(port, predicate=lambda x: 0 < x < 65536)
+        self.bufsize = assert_int(bufsize, predicate=lambda x: x > 0)
+        self.seconds_to_wait = assert_int(seconds_wait, predicate=lambda x: x > 0)
+        self.max_seconds_without_answers = assert_int(silence_interval, predicate=lambda x: x > 0)
+        self.seconds_to_be_dead = assert_int(dead_interval, predicate=lambda x: x > 0)
 
         self.known_peers = dict()
 
