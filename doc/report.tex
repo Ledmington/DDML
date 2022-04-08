@@ -5,6 +5,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{hyperref}
 \usepackage{pgf-umlcd} % add "simplified" to hide empty parts in UML
+\usepackage{pgf-umlsd}
 
 \title{Decentralized Distributed Machine Learning}
 \author{\href{mailto:filippo.barbari@studio.unibo.it}{Filippo Barbari}}
@@ -51,28 +52,26 @@
 		Notice that, when describing a software project, three dimensions need to be taken into account: structure, behaviour, and interaction.
 		
 		Always remember to report why a particular design has been chosen. Reporting wrong design choices which has been evaluated during the design phase is welcome too.
-	
-		\begin{tikzpicture}
-			\begin{class}[text width=3cm]{Thread}{0,0}
-				\operation{start()}
-				\operation{join()}
-			\end{class}
-			\begin{class}[text width=3cm]{Worker}{0,-3}
-				\inherit{Thread}
-				\operation{die()}
-				\operation{is\_shutdown()}
-			\end{class}
-			\begin{class}[text width=3cm]{Peer}{0,-6}
-				\inherit{Worker}
-				\attribute{knownPeers : List[Peer]}
-				\operation{main\_loop()}
-			\end{class}
-		\end{tikzpicture}
 		
 		\subsection{Structure}
 			Which entities need to by modelled to solve the problem?
 			
-			(UML Class diagram)
+			\begin{tikzpicture}
+				\begin{class}[text width=3cm]{Thread}{0,0}
+					\operation{start()}
+					\operation{join()}
+				\end{class}
+				\begin{class}[text width=3cm]{Worker}{0,-3}
+					\inherit{Thread}
+					\operation{die()}
+					\operation{is\_shutdown()}
+				\end{class}
+				\begin{class}[text width=3cm]{Peer}{0,-6}
+					\inherit{Worker}
+					\attribute{knownPeers : List[Peer]}
+					\operation{main\_loop()}
+				\end{class}
+			\end{tikzpicture}
 			
 			How should entities be modularised?
 			
@@ -81,12 +80,32 @@
 		\subsection{Behaviour}
 			How should each entity behave?
 			
-			(UML State diagram or Activity Diagram)
+			\begin{tikzpicture}[stateNode/.style={rectangle split, rectangle split parts=2, draw, rounded corners, fill=yellow!10}]
+				\node[stateNode]{
+					\tikz\node[draw=red, rectangle, rounded corners]{title};
+					\nodepart{two}
+					\begin{tabular}{c}
+						content \\ more content
+					\end{tabular}
+				};
+			\end{tikzpicture}
 			
 		\subsection{Interaction}
 			How should entities interact with each other?
 			
-			(UML Sequence Diagram)
+			\begin{sequencediagram}
+				\newthread[blue]{s1}{:Server1}
+				\newinst{db}{:Database}
+				\newthread[red]{s2}{:Server2}
+				\begin{call}{s1}{reading}{db}{data}
+					\postlevel
+				\end{call}
+				\prelevel\prelevel
+				\setthreadbias{east}
+				\begin{call}{s2}{reading}{db}{data}
+					\postlevel
+				\end{call}
+			\end{sequencediagram}
 			
 	\section{Implementation Details}
 		Just report interesting / non-trivial / non-obvious implementation details.
