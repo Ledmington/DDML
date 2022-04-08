@@ -6,12 +6,11 @@ from testcontainers.core.waiting_utils import wait_for_logs
 from ddml import ROOT_DIR
 
 
-@pytest.mark.skip(reason="integration testing not required during mutation")
 def test_one_dead_peer():
     compose_file = "test_one_dead_peer.yml"
 
     with DockerCompose(
-            os.sep.join([ROOT_DIR, "tests", "peers"]), compose_file_name=compose_file
+        os.sep.join([ROOT_DIR, "tests", "peers"]), compose_file_name=compose_file
     ) as compose:
         try:
             wait_for_logs(compose, r"is dead", timeout=120)
