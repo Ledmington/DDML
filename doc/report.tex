@@ -4,6 +4,7 @@
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{hyperref}
+\usepackage{pgf-umlcd} % add "simplified" to hide empty parts in UML
 
 \title{Decentralized Distributed Machine Learning}
 \author{\href{mailto:filippo.barbari@studio.unibo.it}{Filippo Barbari}}
@@ -49,7 +50,24 @@
 		
 		Notice that, when describing a software project, three dimensions need to be taken into account: structure, behaviour, and interaction.
 		
-		Always remember to report why a particular design has been choosen. Reporting wrog design choices which has been evalued during the design phase is welcome too.
+		Always remember to report why a particular design has been chosen. Reporting wrong design choices which has been evaluated during the design phase is welcome too.
+	
+		\begin{tikzpicture}
+			\begin{class}[text width=3cm]{Thread}{0,0}
+				\operation{start()}
+				\operation{join()}
+			\end{class}
+			\begin{class}[text width=3cm]{Worker}{0,-3}
+				\inherit{Thread}
+				\operation{die()}
+				\operation{is\_shutdown()}
+			\end{class}
+			\begin{class}[text width=3cm]{Peer}{0,-6}
+				\inherit{Worker}
+				\attribute{knownPeers : List[Peer]}
+				\operation{main\_loop()}
+			\end{class}
+		\end{tikzpicture}
 		
 		\subsection{Structure}
 			Which entities need to by modelled to solve the problem?
