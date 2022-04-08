@@ -1,6 +1,6 @@
 import socket
 
-from ddml.utils.utils import assert_int
+from ddml.utils.asserts import assert_int
 
 
 class Peer:

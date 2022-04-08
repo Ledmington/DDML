@@ -9,6 +9,7 @@ dist/
 # Coverage report
 cov_report/
 .coverage*
+!.coveragerc
 
 # Virtual environment
 venv
