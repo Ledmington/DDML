@@ -10,6 +10,13 @@ def test_dies_automatically():
     assert p.alive is False
 
 
+def test_cannot_call_main_loop_twice():
+    p = DeadPeer()
+    p.main_loop()
+    with pytest.raises(ValueError):
+        p.main_loop()
+
+
 def test_allowed_messages():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
