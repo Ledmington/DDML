@@ -3,6 +3,7 @@ from datetime import datetime
 
 from ddml.peers.protocol import Protocol
 from ddml.utils.asserts import assert_int
+from ddml.utils.worker import Worker
 
 
 class Peer:
@@ -33,10 +34,16 @@ class Peer:
 
         self.peer_ip = socket.gethostbyname(socket.gethostname())
 
-        self.alive = True
+        print(f"Peer started ({self.peer_ip})...")
+        self.s.sendto(Protocol.NEW_MSG, ("<broadcast>", self.port))
+
+        self.worker = Worker(task=self.main_loop)
+
+    def is_alive(self):
+        return self.worker is None or not self.worker.is_alive()
 
     def _assert_alive(self):
-        if self.alive is False:
+        if not self.is_alive():
             raise ValueError
 
     def parse_request(self, msg, address):
@@ -72,26 +79,19 @@ class Peer:
                 self.s.sendto(Protocol.HELLO_MSG, (address, self.port))
 
     def main_loop(self):
-        self._assert_alive()
-        print(f"Peer started ({self.peer_ip})...")
-
-        self.s.sendto(Protocol.NEW_MSG, ("<broadcast>", self.port))
-
-        while True:
-            print(f"I know {len(self.known_peers)} other peers")
-            try:
-                msg, address = self.s.recvfrom(self.bufsize)
-                self.parse_request(msg.decode(), address[0])
-            except socket.timeout:
-                print(f"{self.seconds_to_wait} seconds without answer")
-                self.check_dead_peers()
+        print(f"I know {len(self.known_peers)} other peers")
+        try:
+            msg, address = self.s.recvfrom(self.bufsize)
+            self.parse_request(msg.decode(), address[0])
+        except socket.timeout:
+            print(f"{self.seconds_to_wait} seconds without answer")
+            self.check_dead_peers()
 
     def die(self):
         self._assert_alive()
+        self.worker.die()
         self.s.close()
-        self.alive = False
 
 
 if __name__ == "__main__":
     p = Peer()
-    p.main_loop()

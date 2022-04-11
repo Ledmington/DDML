@@ -8,7 +8,7 @@ from ddml.peers.protocol import Protocol
 def test_dies_automatically():
     p = DeadPeer()
     p.main_loop()
-    assert p.alive is False
+    assert p.is_alive() is False
 
 
 def test_cannot_call_main_loop_twice():
