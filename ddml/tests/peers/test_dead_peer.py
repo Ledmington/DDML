@@ -1,4 +1,6 @@
 import socket
+import pytest
+
 from ddml.peers.dead.dead_peer import DeadPeer
 
 
@@ -19,3 +21,15 @@ def test_allowed_messages():
 
     msg, address = s.recvfrom(1024)
     assert msg.decode() == "new"
+
+
+def test_cannot_call_parse_request():
+    p = DeadPeer()
+    with pytest.raises(Exception):
+        p.parse_request()
+
+
+def test_cannot_call_check_dead_peers():
+    p = DeadPeer()
+    with pytest.raises(Exception):
+        p.check_dead_peers()

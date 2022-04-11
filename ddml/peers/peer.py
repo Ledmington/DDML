@@ -9,12 +9,12 @@ class Peer:
     BUFSIZE = 1024
 
     def __init__(
-            self,
-            port=PORT,
-            bufsize=BUFSIZE,
-            seconds_wait=5,
-            silence_interval=10,
-            dead_interval=30,
+        self,
+        port=PORT,
+        bufsize=BUFSIZE,
+        seconds_wait=5,
+        silence_interval=10,
+        dead_interval=30,
     ):
         self.port = assert_int(port, lambda x: 0 < x < 65536)
         self.bufsize = assert_int(bufsize, lambda x: x > 0)
