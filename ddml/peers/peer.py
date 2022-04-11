@@ -34,8 +34,8 @@ class Peer:
         self.alive = True
 
     def _assert_alive(self):
-        if not self.alive:
-            raise ValueError("peer is not alive")
+        if self.alive is False:
+            raise ValueError
 
     def parse_request(self, msg: str, address: str):
         pass
