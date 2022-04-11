@@ -3,6 +3,7 @@
 \usepackage[italian]{babel}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
 \usepackage{hyperref}
 \usepackage{pgf-umlcd} % add "simplified" to hide empty parts in UML
 \usepackage{pgf-umlsd}
@@ -15,7 +16,8 @@
 	\maketitle
 	
 	\begin{abstract}
-		Train Machine Learning models in a decentralized and distributed manner.
+		Nowadays the amount of data produced by decentralized devices is exponentially increasing and with them the need for well-established data analysis and inference systems. 
+		Although data privacy has started to be a central theme in public debate, many commercial (e.g. profiling users) and research (e.g. collector of medical data) systems don’t take it into account. Therefore the aim of this project is to develop a library for tackling the resolution of simple inference tasks using machine learning models trained in a decentralized manner. The goal is pursued by developing a network-based system in which each node sees only its data (i.e. it complies with privacy constraints) and thus owns a partial version of the model. The final optimized version is obtained using a message-passing approach in which nodes exchange gradient partitions each other. Furthermore, this approach could be used to tackle the problem of managing huge datasets (i.e. scenarios in which memory is limited) by giving each node only a circumscribed subset.
 	\end{abstract}
 	\clearpage
 	
