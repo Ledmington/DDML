@@ -1,6 +1,7 @@
 import socket
 from datetime import datetime
 
+from ddml.peers.protocol import Protocol
 from ddml.utils.asserts import assert_int
 
 
@@ -45,15 +46,15 @@ class Peer:
         # Updating last_response
         self.known_peers[address] = datetime.now()
 
-        if msg == "new":
+        if msg == Protocol.NEW_MSG:
             print(f"A new peer has joined the network ({address})")
         # elif msg == "bye":
         #    print(f"A peers has leaved the network ({address})")
         #    known_peers.remove(address)
-        elif msg == "hello":
+        elif msg == Protocol.HELLO_MSG:
             print(f"Received hello packet from {address}")
-            self.s.sendto("alive".encode(), (address, self.port))
-        elif msg == "alive":
+            self.s.sendto(Protocol.ALIVE_MSG, (address, self.port))
+        elif msg == Protocol.ALIVE_MSG:
             # Do nothing (because we already updated its last response)
             pass
         else:
@@ -68,13 +69,13 @@ class Peer:
                 del self.known_peers[address]
             elif time_passed >= self.max_seconds_without_answers:
                 print(f"Long time no news from {address}")
-                self.s.sendto("hello".encode(), (address, self.port))
+                self.s.sendto(Protocol.HELLO_MSG, (address, self.port))
 
     def main_loop(self):
         self._assert_alive()
         print(f"Peer started ({self.peer_ip})...")
 
-        self.s.sendto("new".encode(), ("<broadcast>", self.port))
+        self.s.sendto(Protocol.NEW_MSG, ("<broadcast>", self.port))
 
         while True:
             print(f"I know {len(self.known_peers)} other peers")

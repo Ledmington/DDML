@@ -1,4 +1,5 @@
 from ddml.peers.peer import Peer
+from ddml.peers.protocol import Protocol
 
 
 class DeadPeer(Peer):
@@ -10,7 +11,7 @@ class DeadPeer(Peer):
     def main_loop(self):
         self._assert_alive()
         print(f"Peer started ({self.peer_ip})...")
-        self.s.sendto("new".encode(), ("<broadcast>", self.port))
+        self.s.sendto(Protocol.NEW_MSG, ("<broadcast>", self.port))
         self.die()
         print("Peer dead")
 

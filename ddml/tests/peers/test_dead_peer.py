@@ -2,6 +2,7 @@ import socket
 import pytest
 
 from ddml.peers.dead.dead_peer import DeadPeer
+from ddml.peers.protocol import Protocol
 
 
 def test_dies_automatically():
@@ -27,7 +28,7 @@ def test_allowed_messages():
     p.main_loop()
 
     msg, address = s.recvfrom(1024)
-    assert msg.decode() == "new"
+    assert msg == Protocol.NEW_MSG
 
 
 def test_cannot_call_parse_request():
