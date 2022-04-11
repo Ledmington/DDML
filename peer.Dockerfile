@@ -24,4 +24,4 @@ RUN poetry install --no-dev
 RUN rm -rf /var/cache/apk/*
 
 # Launching the normal peer
-CMD poetry run python3 ddml/peers/normal/normal_peer.py
+CMD poetry run python3 ddml/peers/peer.py

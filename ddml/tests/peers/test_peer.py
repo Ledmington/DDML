@@ -80,3 +80,10 @@ def test_dead_interval_is_valid():
     for x in [-1, 0]:
         with pytest.raises(ValueError):
             p = Peer(dead_interval=x)
+
+
+def test_cannot_start_dead_peer():
+    p = Peer()
+    p.die()
+    with pytest.raises(Exception):
+        p.main_loop()
