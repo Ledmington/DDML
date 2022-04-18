@@ -60,22 +60,25 @@
 			
 			\begin{tikzpicture}
 				\begin{class}[text width=3cm]{Thread}{0,0}
+					\attribute{name : String}
 					\operation{start()}
+					\operation{run()}
 					\operation{join()}
+					\operation{is\_alive() : bool}
 				\end{class}
 			
-				\begin{class}[text width=3cm]{Worker}{0,-3}
+				\begin{class}[text width=3cm]{Worker}{0,-4}
 					\inherit{Thread}
 					\operation{die()}
 					\operation{is\_shutdown()}
 				\end{class}
 			
-				\begin{class}[text width=3cm]{Peer}{0,-6}
+				\begin{class}[text width=3cm]{Peer}{0,-7}
 					\inherit{Worker}
 					\operation{main\_loop()}
 				\end{class}
 			
-				\begin{class}[text width=3cm]{InteractivePeer}{0,-9}
+				\begin{class}[text width=3cm]{InteractivePeer}{0,-10}
 					\inherit{Peer}
 					\attribute{???}
 					\operation{???}

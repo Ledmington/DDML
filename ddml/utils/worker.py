@@ -1,25 +1,30 @@
 from threading import Thread
 
 
-class Worker:
-    def __init__(self, task):
+class Worker(Thread):
+    id = 0
+
+    def __init__(self, task, name=None):
         if not callable(task):
             raise TypeError
+
+        if name is None:
+            name = "worker-" + str(Worker.id)
+            Worker.id += 1
+
         self.task = task
-        self.th = None
         self.shutdown = False
+
+        Thread.__init__(self, target=self._loop, name=name, daemon=False)
 
     def is_shutdown(self) -> bool:
         return self.shutdown
 
     def is_alive(self) -> bool:
-        return self.th is not None
+        return Thread.is_alive(self)
 
     def start(self):
-        if self.th is not None:
-            raise ValueError
-        self.th = Thread(target=self._loop)
-        self.th.start()
+        Thread.start(self)
 
     def _loop(self):
         while self.shutdown is False:
@@ -30,5 +35,4 @@ class Worker:
 
     def join(self):
         self.die()
-        self.th.join()
-        self.th = None
+        Thread.join(self)
