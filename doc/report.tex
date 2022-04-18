@@ -63,15 +63,22 @@
 					\operation{start()}
 					\operation{join()}
 				\end{class}
+			
 				\begin{class}[text width=3cm]{Worker}{0,-3}
 					\inherit{Thread}
 					\operation{die()}
 					\operation{is\_shutdown()}
 				\end{class}
+			
 				\begin{class}[text width=3cm]{Peer}{0,-6}
 					\inherit{Worker}
-					\attribute{knownPeers : List[Peer]}
 					\operation{main\_loop()}
+				\end{class}
+			
+				\begin{class}[text width=3cm]{InteractivePeer}{0,-9}
+					\inherit{Peer}
+					\attribute{???}
+					\operation{???}
 				\end{class}
 			\end{tikzpicture}
 			
