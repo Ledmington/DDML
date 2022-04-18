@@ -19,6 +19,6 @@ mut:
 	${RUN} mutmut run
 
 clean:
-	rm -rf cov_report dist .coverage
+	rm -rf cov_report dist .coverage .idea
 	find ./ddml | grep __pycache__$ | xargs rm -rf
 	find ./ | grep .pytest_cache$ | xargs rm -rf

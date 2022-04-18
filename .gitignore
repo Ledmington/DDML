@@ -3,7 +3,6 @@
 **/.pytest_cache
 
 # Poetry build files
-poetry.lock
 dist/
 
 # Coverage report
