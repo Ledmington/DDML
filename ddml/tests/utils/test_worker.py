@@ -30,7 +30,7 @@ def test_when_started_is_alive():
 def test_cant_start_twice():
     w = Worker(fake_task)
     w.start()
-    with pytest.raises(ValueError):
+    with pytest.raises(RuntimeError):
         w.start()
     w.join()
 
@@ -49,3 +49,11 @@ def test_is_dead_after_join():
     w.join()
     assert w.is_shutdown() is True
     assert w.is_alive() is False
+
+
+def test_id_is_incremented():
+    first_id = Worker.id
+    w1 = Worker(fake_task)
+    assert Worker.id == first_id + 1
+    w2 = Worker(fake_task)
+    assert Worker.id == first_id + 2
