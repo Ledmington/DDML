@@ -70,18 +70,21 @@
 				\begin{class}[text width=3cm]{Worker}{0,-4}
 					\inherit{Thread}
 					\operation{die()}
-					\operation{is\_shutdown()}
+					\operation{is\_shutdown() : bool}
 				\end{class}
 			
 				\begin{class}[text width=3cm]{Peer}{0,-7}
 					\inherit{Worker}
-					\operation{main\_loop()}
+					\attribute{knownPeers : List[Peer]}
+					\attribute{trainingPeers : List[Peer]}
+					\operation{???}
 				\end{class}
 			
-				\begin{class}[text width=3cm]{InteractivePeer}{0,-10}
+				\begin{class}[text width=3cm]{InteractivePeer}{0,-11}
 					\inherit{Peer}
 					\attribute{???}
-					\operation{???}
+					\operation{is\_training() : bool}
+					\operation{start\_train()}
 				\end{class}
 			\end{tikzpicture}
 			

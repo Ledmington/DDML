@@ -6,7 +6,7 @@ from ddml.utils.asserts import assert_int
 from ddml.utils.worker import Worker
 
 
-class Peer:
+class Peer(Worker):
     PORT = 10000
     BUFSIZE = 1024
 
@@ -34,19 +34,17 @@ class Peer:
 
         self.peer_ip = socket.gethostbyname(socket.gethostname())
 
-        print(f"Peer started ({self.peer_ip})...")
-        self.s.sendto(Protocol.NEW_MSG, ("<broadcast>", self.port))
-
-        self.worker = Worker(task=self.main_loop)
+        print(f"Peer ready at ({self.peer_ip})...")
+        Worker.__init__(self, task=self._loop)
 
     def is_alive(self):
-        return self.worker is None or not self.worker.is_alive()
+        return self.s is not None and Worker.is_alive(self)
 
     def _assert_alive(self):
         if not self.is_alive():
             raise ValueError
 
-    def parse_request(self, msg, address):
+    def _parse_request(self, msg, address):
         if address == self.peer_ip:
             return
 
@@ -67,7 +65,7 @@ class Peer:
         else:
             raise Exception("Unknown message")
 
-    def check_dead_peers(self):
+    def _check_dead_peers(self):
         for (address, last_response) in self.known_peers.copy().items():
             time_passed = (datetime.now() - last_response).seconds
             if time_passed >= self.seconds_to_be_dead:
@@ -78,19 +76,28 @@ class Peer:
                 print(f"Long time no news from {address}")
                 self.s.sendto(Protocol.HELLO_MSG, (address, self.port))
 
-    def main_loop(self):
+    def _loop(self):
         print(f"I know {len(self.known_peers)} other peers")
         try:
             msg, address = self.s.recvfrom(self.bufsize)
-            self.parse_request(msg.decode(), address[0])
+            self._parse_request(msg.decode(), address[0])
         except socket.timeout:
             print(f"{self.seconds_to_wait} seconds without answer")
-            self.check_dead_peers()
+            self._check_dead_peers()
+
+    def start(self):
+        self.s.sendto(Protocol.NEW_MSG, ("<broadcast>", self.port))
+        Worker.start(self)
+        print(f"Peer started at {self.peer_ip}")
 
     def die(self):
-        self._assert_alive()
-        self.worker.die()
+        Worker.die(self)
         self.s.close()
+
+    def join(self):
+        self.die()
+        Worker.join(self)
+        self.s = None
 
 
 if __name__ == "__main__":

@@ -5,17 +5,22 @@ from ddml.peers.dead.dead_peer import DeadPeer
 from ddml.peers.protocol import Protocol
 
 
-def test_dies_automatically():
+def test_initially_dead():
     p = DeadPeer()
-    p.main_loop()
     assert p.is_alive() is False
 
 
-def test_cannot_call_main_loop_twice():
+def test_dies_automatically():
     p = DeadPeer()
-    p.main_loop()
-    with pytest.raises(ValueError):
-        p.main_loop()
+    p.start()
+    assert p.is_alive() is False
+
+
+def test_cannot_call_start_twice():
+    p = DeadPeer()
+    p.start()
+    with pytest.raises(RuntimeError):
+        p.start()
 
 
 def test_allowed_messages():
@@ -25,10 +30,12 @@ def test_allowed_messages():
     s.settimeout(1)
     s.bind(("", 10000))
     p = DeadPeer()
-    p.main_loop()
+    p.start()
 
     msg, address = s.recvfrom(1024)
     assert msg == Protocol.NEW_MSG
+
+    s.close()
 
 
 def test_cannot_call_parse_request():
