@@ -86,6 +86,10 @@ class Peer(Worker):
             self._check_dead_peers()
 
     def start(self):
+        if self.is_alive() is True:
+            raise RuntimeError("Cannot start an already alive Peer")
+        if Worker.is_shutdown(self) is True:
+            raise RuntimeError("Cannot start a dying Peer")
         self.s.sendto(Protocol.NEW_MSG, ("<broadcast>", self.port))
         Worker.start(self)
         print(f"Peer started at {self.peer_ip}")

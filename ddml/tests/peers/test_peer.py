@@ -3,9 +3,9 @@ import pytest
 from ddml.peers.peer import Peer
 
 
-def test_peer_initially_alive():
+def test_peer_initially_dead():
     p = Peer()
-    p._assert_alive()
+    assert p.is_alive() is False
 
 
 def test_peer_can_die():
@@ -15,11 +15,32 @@ def test_peer_can_die():
         p._assert_alive()
 
 
-def test_peer_cant_die_twice():
+def test_peer_can_die_twice():
     p = Peer()
     p.die()
-    with pytest.raises(ValueError):
-        p.die()
+    p.die()
+
+
+def test_cannot_start_dead_peer():
+    p = Peer()
+    p.die()
+    with pytest.raises(RuntimeError):
+        p.start()
+
+
+def test_peer_is_alive_after_start():
+    p = Peer()
+    p.start()
+    assert p.is_alive() is True
+    p.join()
+
+
+def test_peer_cant_start_twice():
+    p = Peer()
+    p.start()
+    with pytest.raises(RuntimeError):
+        p.start()
+    p.join()
 
 
 def test_port_is_int():
@@ -80,10 +101,3 @@ def test_dead_interval_is_valid():
     for x in [-1, 0]:
         with pytest.raises(ValueError):
             p = Peer(dead_interval=x)
-
-
-def test_cannot_start_dead_peer():
-    p = Peer()
-    p.die()
-    with pytest.raises(Exception):
-        p.main_loop()
