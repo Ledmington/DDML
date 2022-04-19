@@ -7,10 +7,6 @@ def fake_task():
     time.sleep(1e-3)
 
 
-def longn_task():
-    time.sleep(1)
-
-
 def test_worker_initially_dead():
     w = Worker(fake_task)
     assert w.is_shutdown() is False
@@ -39,6 +35,24 @@ def test_cant_start_twice():
         w.start()
     w.die()
     w.join()
+
+
+def test_cannot_start_dead_worker():
+    w = Worker(fake_task)
+    w.start()
+    w.die()
+    with pytest.raises(RuntimeError):
+        w.start()
+    w.join()
+
+
+def test_cannot_start_joined_worker():
+    w = Worker(fake_task)
+    w.start()
+    w.die()
+    w.join()
+    with pytest.raises(RuntimeError):
+        w.start()
 
 
 def test_is_shutdown_after_die():
