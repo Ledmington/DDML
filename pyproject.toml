@@ -5,7 +5,7 @@ description = "Train machine learning models in a distributed and decentralized 
 authors = ["Filippo Barbari <filippo.barbari@studio.unibo.it>"]
 
 [tool.poetry.dependencies]
-python = "^3.7,<3.10"
+python = "^3.7"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
