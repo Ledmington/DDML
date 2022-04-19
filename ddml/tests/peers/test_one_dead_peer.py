@@ -6,7 +6,7 @@ from testcontainers.core.waiting_utils import wait_for_logs
 from ddml import ROOT_DIR
 
 
-# @pytest.mark.skip  # uncomment to avoid slow integration testing
+@pytest.mark.skip  # uncomment to avoid slow integration testing
 def test_one_dead_peer():
     compose_file = "test_one_dead_peer.yml"
 
