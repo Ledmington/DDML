@@ -2,9 +2,18 @@ import pytest
 import time
 from ddml.utils.worker import Worker
 
-
+# Utility function
 def fake_task():
     time.sleep(1e-3)
+
+
+# Utility class
+class Counter:
+    def __init__(self):
+        self.n = 0
+
+    def inc(self):
+        self.n += 1
 
 
 def test_worker_initially_dead():
@@ -94,3 +103,30 @@ def test_id_is_incremented():
     assert Worker.id == first_id + 1
     w2 = Worker(fake_task)
     assert Worker.id == first_id + 2
+
+
+def test_task_is_called():
+    c = Counter()
+
+    def task():
+        c.inc()
+
+    w = Worker(task)
+    w.start()
+    time.sleep(0.1)
+    w.die()
+    w.join()
+    assert c.n > 0
+
+
+def test_task_is_not_called_if_dead_before_start():
+    c = Counter()
+
+    def task():
+        c.inc()
+
+    w = Worker(task)
+    w.die()
+    w.start()
+    w.join()
+    assert c.n == 0
