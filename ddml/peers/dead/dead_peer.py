@@ -7,6 +7,8 @@ class DeadPeer(Peer):
         Peer.__init__(self)
         self.parse_request = None
         self.check_dead_peers = None
+        self._assert_alive = None
+        self._loop = None
         self.called = False
 
     def is_alive(self):
@@ -18,10 +20,16 @@ class DeadPeer(Peer):
         self.called = True
         print(f"Peer started ({self.peer_ip})")
         self.s.sendto(Protocol.NEW_MSG, ("<broadcast>", self.port))
-        self.die()
         print("Peer dead")
+
+    def die(self):
+        pass
+
+    def join(self):
+        pass
 
 
 if __name__ == "__main__":
     p = DeadPeer()
     p.start()
+    p.join()

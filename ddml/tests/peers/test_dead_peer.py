@@ -32,19 +32,15 @@ def test_allowed_messages():
     p = DeadPeer()
     p.start()
 
-    msg, address = s.recvfrom(1024)
+    msg, _ = s.recvfrom(1024)
     assert msg == Protocol.NEW_MSG
 
     s.close()
 
 
-def test_cannot_call_parse_request():
+def test_api_is_restricted():
     p = DeadPeer()
-    with pytest.raises(Exception):
-        p.parse_request()
-
-
-def test_cannot_call_check_dead_peers():
-    p = DeadPeer()
-    with pytest.raises(Exception):
-        p.check_dead_peers()
+    assert p.check_dead_peers is None
+    assert p._assert_alive is None
+    assert p._loop is None
+    assert p.parse_request is None
