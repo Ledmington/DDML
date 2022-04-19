@@ -4,7 +4,7 @@ services:
   peer:
     container_name: peer
     build:
-      context: ../../..
+      context: ../../../..
       dockerfile: peer.Dockerfile
     tty: true
   
@@ -13,6 +13,6 @@ services:
     depends_on:
       - peer
     build:
-      context: ../../..
+      context: ../../../..
       dockerfile: dead_peer.Dockerfile
     tty: true
