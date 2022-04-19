@@ -1,4 +1,5 @@
 class Protocol:
-    NEW_MSG = "new".encode()
-    HELLO_MSG = "hello".encode()
-    ALIVE_MSG = "alive".encode()
+    NEW_MSG = "new"
+    HELLO_MSG = "hello"
+    ALIVE_MSG = "alive"
+    LEAVE_MSG = "bye"

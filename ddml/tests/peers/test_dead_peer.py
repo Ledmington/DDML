@@ -33,7 +33,7 @@ def test_allowed_messages():
     p.start()
 
     msg, _ = s.recvfrom(1024)
-    assert msg == Protocol.NEW_MSG
+    assert msg.decode() == Protocol.NEW_MSG
 
     s.close()
 
