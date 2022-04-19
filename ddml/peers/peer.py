@@ -99,10 +99,10 @@ class Peer(Worker):
         self.s.close()
 
     def join(self):
-        self.die()
         Worker.join(self)
         self.s = None
 
 
 if __name__ == "__main__":
     p = Peer()
+    p.start()

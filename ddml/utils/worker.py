@@ -34,5 +34,4 @@ class Worker(Thread):
         self.shutdown = True
 
     def join(self):
-        self.die()
         Thread.join(self)
