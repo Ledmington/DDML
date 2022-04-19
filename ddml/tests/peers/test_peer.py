@@ -4,43 +4,78 @@ from ddml.peers.peer import Peer
 
 
 def test_peer_initially_dead():
-    p = Peer()
-    assert p.is_alive() is False
+    w = Peer()
+    assert w.is_shutdown() is False
+    assert w.is_alive() is False
 
 
-def test_peer_can_die():
-    p = Peer()
-    p.die()
-    with pytest.raises(ValueError):
-        p._assert_alive()
+def test_when_started_is_alive():
+    w = Peer()
+    w.start()
+    assert w.is_shutdown() is False
+    assert w.is_alive() is True
+    w.die()
+    w.join()
 
 
-def test_peer_can_die_twice():
-    p = Peer()
-    p.die()
-    p.die()
+def test_cant_start_twice():
+    w = Peer()
+    w.start()
+    with pytest.raises(RuntimeError):
+        w.start()
+    w.die()
+    w.join()
 
 
 def test_cannot_start_dead_peer():
-    p = Peer()
-    p.die()
+    w = Peer()
+    w.start()
+    w.die()
     with pytest.raises(RuntimeError):
-        p.start()
+        w.start()
+    w.join()
 
 
-def test_peer_is_alive_after_start():
-    p = Peer()
-    p.start()
-    assert p.is_alive() is True
-    p.join()
-
-
-def test_peer_cant_start_twice():
-    p = Peer()
-    p.start()
+def test_cannot_start_joined_peer():
+    w = Peer()
+    w.start()
+    w.die()
+    w.join()
     with pytest.raises(RuntimeError):
-        p.start()
-    p.join()
+        w.start()
+
+
+def test_is_shutdown_after_die():
+    w = Peer()
+    w.start()
+    w.die()
+    assert w.is_shutdown() is True
+    w.join()
+
+
+def test_is_dead_after_join():
+    w = Peer()
+    w.start()
+    w.die()
+    w.join()
+    assert w.is_shutdown() is True
+    assert w.is_alive() is False
+
+
+def test_can_die_twice():
+    w = Peer()
+    w.start()
+    w.die()
+    w.die()
+    w.join()
+
+
+def test_can_join_twice():
+    w = Peer()
+    w.start()
+    w.die()
+    w.join()
+    w.join()
 
 
 def test_port_is_int():
