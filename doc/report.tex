@@ -7,6 +7,14 @@
 \usepackage{hyperref}
 \usepackage{pgf-umlcd} % add "simplified" to hide empty parts in UML
 \usepackage{pgf-umlsd}
+\usepackage{csquotes}
+
+\usepackage[
+backend=biber,
+sorting=ynt
+]{biblatex}
+
+\addbibresource{report.bib}
 
 \title{Decentralized Distributed Machine Learning}
 \author{\href{mailto:filippo.barbari@studio.unibo.it}{Filippo Barbari}}
@@ -47,6 +55,20 @@
 		What model/paradigm/techonology is the best suited to face this project's requirements?
 		
 		What's the abstraction gap among the available models/paradigms/techonologies and the problem to be solved?
+		
+		The following requirements are considered \textbf{mandatory} in order to successfully deliver the project. Technologies that will be used are listed as well.
+		
+		\begin{enumerate}
+			\item The algorithm used to implement the training process is described in \cite{watcharapichat2016ako}. Briefly it is divided into gradients calculus, accumulation and exchange between worker
+			\item The node that starts the computation, thus becoming the \emph{principal} one, can choose different training settings, such as the task and related model, workers among those available in the network and a stopping criterion (e.g. target epoch reached)
+			\item Provide support for most commonly used Scikit-learn models such as Logistic Regression
+			\item Peers will be able to join the network at any time. They will not be able to join a training process, once it has started, while being able to disconnect from both at any time
+			\item Monitoring real-time metrics (e.g. accuracy) in order to assess correct convergence
+			\item As soon as the training process finishes, the resulting model will be sent back to the \emph{principal} node, that will optionally be able to download it in ONNX format
+			\item Implement a significant case study, e.g. classification using a Logistic Regression model
+			\item Test the aforementioned case study emulating different scenarios, e.g. high number of peers or high network latency
+			\item The project will be delivered in the form of a Docker container image on Docker Hub at this \href{https://hub.docker.com/repository/docker/filippobarbari/ddml-peer}{link}
+		\end{enumerate}
 	
 	\section{Design}
 		This is where the logical/abstract contribution of the project is presented.
@@ -154,4 +176,6 @@
 		
 		\subsection{What we learned}
 			Recap what you learned.
+			
+	\printbibliography
 \end{document}

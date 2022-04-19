@@ -16,6 +16,7 @@ venv
 # Documentation
 doc/*
 !doc/*.tex
+!doc/*.bib
 
 # Misc
 *.pdf
