@@ -1,5 +1,6 @@
 import socket
 from datetime import datetime
+import logging
 
 from ddml.peers.protocol import Protocol
 from ddml.utils.asserts import assert_int
@@ -34,7 +35,9 @@ class Peer(Worker):
 
         self.peer_ip = socket.gethostbyname(socket.gethostname())
 
-        print(f"Peer ready at ({self.peer_ip})...")
+        self.logger = logging.getLogger("ddml.peer")
+
+        self.logger.info(f"Peer ready at ({self.peer_ip})")
         Worker.__init__(self, task=self._recv_parse_loop)
 
     def is_alive(self):
@@ -51,20 +54,21 @@ class Peer(Worker):
         # Updating last_response
         self.known_peers[address] = datetime.now()
 
-        print(f'Received message "{msg}" from address "{address}"')
+        self.logger.info(f'Received message "{msg}" from address "{address}"')
 
         if msg == Protocol.NEW_MSG:
-            print(f"A new peer has joined the network ({address})")
+            self.logger.info(f"A new peer has joined the network ({address})")
         elif msg == Protocol.LEAVE_MSG:
-            print(f"A peers has leaved the network ({address})")
+            self.logger.info(f"A peers has leaved the network ({address})")
             self.known_peers.remove(address)
         elif msg == Protocol.HELLO_MSG:
-            print(f"Received hello packet from {address}")
+            self.logger.info(f"Received hello packet from {address}")
             self.s.sendto(Protocol.ALIVE_MSG.encode(), (address, self.port))
         elif msg == Protocol.ALIVE_MSG:
             # Do nothing (because we already updated its last response)
             pass
         else:
+            self.logger.critical("Unknown message")
             raise ValueError("Unknown message")
 
     def _check_dead_peers(self):
@@ -72,19 +76,19 @@ class Peer(Worker):
             time_passed = (datetime.now() - last_response).seconds
             if time_passed >= self.seconds_to_be_dead:
                 # This peer is considered dead
-                print(f"{address} is dead")
+                self.logger.info(f"{address} is dead")
                 del self.known_peers[address]
             elif time_passed >= self.max_seconds_without_answers:
-                print(f"Long time no news from {address}")
+                self.logger.info(f"Long time no news from {address}")
                 self.s.sendto(Protocol.HELLO_MSG.encode(), (address, self.port))
 
     def _recv_parse_loop(self):
-        print(f"I know {len(self.known_peers)} other peers")
+        self.logger.info(f"I know {len(self.known_peers)} other peers")
         try:
             msg, address = self.s.recvfrom(self.bufsize)
             self._parse_request(msg.decode(), address[0])
         except socket.timeout:
-            print(f"{self.seconds_to_wait} seconds without answer")
+            self.logger.info(f"{self.seconds_to_wait} seconds without answer")
             self._check_dead_peers()
 
     def start(self):
@@ -94,17 +98,17 @@ class Peer(Worker):
             raise RuntimeError("Cannot start a dying Peer")
         self.s.sendto(Protocol.NEW_MSG.encode(), ("<broadcast>", self.port))
         Worker.start(self)
-        print(f"Peer started at {self.peer_ip}")
+        self.logger.info(f"Peer started at {self.peer_ip}")
 
     def die(self):
         Worker.die(self)
 
     def join(self):
-        print("Waiting for the peer to die")
+        self.logger.info("Waiting for the peer to die")
         Worker.join(self)
-        print(f'Broadcasting "{Protocol.LEAVE_MSG}"')
+        self.logger.info(f'Broadcasting "{Protocol.LEAVE_MSG}"')
         if self.s is not None:
             self.s.sendto(Protocol.LEAVE_MSG.encode(), ("<broadcast>", self.port))
             self.s.close()
             self.s = None
-        print("Peer dead")
+        self.logger.info("Peer dead")
