@@ -108,9 +108,3 @@ class Peer(Worker):
             self.s.close()
             self.s = None
         print("Peer dead")
-
-
-if __name__ == "__main__":
-    p = Peer()
-    p.start()
-    p.join()

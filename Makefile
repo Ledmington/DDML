@@ -18,6 +18,12 @@ mut:
 	# Run full mutation testing
 	${RUN} mutmut run
 
+run:
+	${RUN} python3 ddml/main.py
+
+interactive:
+	${RUN} python3 ddml/main.py -i
+
 clean:
 	rm -rf cov_report dist .coverage .idea
 	find ./ddml | grep __pycache__$ | xargs rm -rf
