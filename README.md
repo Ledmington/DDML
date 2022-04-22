@@ -1,6 +1,16 @@
 # Decentralized Distributed Machine Learning
 Train ML models in a distributed and decentralized manner.
 
+## Instructions
+### Running the Docker container
+You can run the peer packaged inside a docker container with:
+```bash
+docker run -it --rm filippobarbari/ddml-peer
+```
+
+### Run standalone
+**TODO**
+
 ## Local development
 For local development, you'll need `poetry` installed. You can do it with:
 ```
