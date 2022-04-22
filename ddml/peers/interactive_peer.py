@@ -35,7 +35,6 @@ class InteractivePeer(Peer):
 
     def __init__(self):
         Peer.__init__(self)
-        self._setup_logger()
         self.logger.info("Interactive peer ready")
 
     def on_press(key):
@@ -46,27 +45,6 @@ class InteractivePeer(Peer):
         if key == Key.esc:
             # Stop listener
             return False
-
-    def _setup_logger(self):
-        # create logs directory
-        # if not os.path.exists("logs"):
-        #    os.mkdir("logs")
-
-        self.logger = logging.getLogger("ddml-peer")
-        self.logger.setLevel(logging.INFO)
-        formatter = logging.Formatter(
-            "[%(asctime)s][%(levelname)s]: %(message)s", "%m-%d-%Y %H:%M:%S"
-        )
-
-        stdout_handler = logging.StreamHandler(sys.stdout)
-        stdout_handler.setLevel(logging.DEBUG)
-        stdout_handler.setFormatter(self.CustomFormatter())
-        self.logger.addHandler(stdout_handler)
-
-        # file_handler = logging.FileHandler("logs/ddml-peer.log")
-        # file_handler.setLevel(logging.DEBUG)
-        # file_handler.setFormatter(formatter)
-        # logger.addHandler(file_handler)
 
     def start(self):
         super().start()
