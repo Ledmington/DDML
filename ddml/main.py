@@ -1,7 +1,6 @@
 import sys
 
 from ddml.peers.peer import Peer
-from ddml.peers.interactive_peer import InteractivePeer
 from ddml.utils.colors import colored
 
 if __name__ == "__main__":
@@ -13,6 +12,8 @@ if __name__ == "__main__":
             print(colored("ERROR", "red"), f': unknown argument "{arg}"')
 
     if interactive_mode is True:
+        from ddml.peers.interactive_peer import InteractivePeer
+
         print("Starting an interactive peer")
         p = InteractivePeer()
         p.start()

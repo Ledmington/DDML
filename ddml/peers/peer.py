@@ -1,3 +1,4 @@
+import sys
 import socket
 from datetime import datetime
 import logging
@@ -5,7 +6,7 @@ import logging
 from ddml.peers.protocol import Protocol
 from ddml.utils.asserts import assert_int
 from ddml.utils.worker import Worker
-
+from ddml.utils.colors import ColoredFormatter
 
 class Peer(Worker):
     PORT = 10000
@@ -35,10 +36,32 @@ class Peer(Worker):
 
         self.peer_ip = socket.gethostbyname(socket.gethostname())
 
-        self.logger = logging.getLogger("ddml.peer")
+        self._setup_logger()
+        self.logger = logging.getLogger("ddml-peer")
 
         self.logger.info(f"Peer ready at ({self.peer_ip})")
         Worker.__init__(self, task=self._recv_parse_loop)
+
+    def _setup_logger(self):
+        # create logs directory
+        # if not os.path.exists("logs"):
+        #    os.mkdir("logs")
+
+        self.logger = logging.getLogger("ddml-peer")
+        self.logger.setLevel(logging.INFO)
+        formatter = logging.Formatter(
+            "[%(asctime)s][%(levelname)s]: %(message)s", "%m-%d-%Y %H:%M:%S"
+        )
+
+        stdout_handler = logging.StreamHandler(sys.stdout)
+        stdout_handler.setLevel(logging.DEBUG)
+        stdout_handler.setFormatter(ColoredFormatter())
+        self.logger.addHandler(stdout_handler)
+
+        # file_handler = logging.FileHandler("logs/ddml-peer.log")
+        # file_handler.setLevel(logging.DEBUG)
+        # file_handler.setFormatter(formatter)
+        # logger.addHandler(file_handler)
 
     def is_alive(self):
         return self.s is not None and Worker.is_alive(self)

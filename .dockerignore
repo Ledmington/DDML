@@ -2,8 +2,9 @@
 *
 
 # ... except the source code
-!ddml/peers
-!ddml/utils
+!ddml
+ddml/tests
 
 # .. and the dependencies
+!poetry.lock
 !pyproject.toml
