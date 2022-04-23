@@ -1,27 +1,14 @@
-import sys
 import logging
 from pynput.keyboard import Key, Listener
 
 from ddml.peers.peer import Peer
-from ddml.utils.colors import colored
+from ddml.utils.colors import ColoredFormatter
 
 
 class InteractivePeer(Peer):
-    class CustomFormatter(logging.Formatter):
+    class CustomFormatter(ColoredFormatter):
         erase_one_line = "\033[1A\033[K"
         commands_bar = "[S]top | [L]ist | [T]rain"
-
-        time = "[%(asctime)s]"
-        level = "%(levelname)s"
-        msg = "%(message)s"
-
-        FORMATS = {
-            logging.DEBUG: time + "[" + colored(level, "grey") + "]: " + msg,
-            logging.INFO: time + "[" + colored(level, "blue") + "]: " + msg,
-            logging.WARNING: time + "[" + colored(level, "yellow") + "]: " + msg,
-            logging.ERROR: time + "[" + colored(level, "red") + "]: " + msg,
-            logging.CRITICAL: colored(time + "[" + level + "]: " + msg, "bold_red"),
-        }
 
         def format(self, record):
             log_fmt = self.FORMATS.get(record.levelno)
@@ -34,7 +21,7 @@ class InteractivePeer(Peer):
             )
 
     def __init__(self):
-        Peer.__init__(self)
+        Peer.__init__(self, log_fmt=self.CustomFormatter())
         self.logger.info("Interactive peer ready")
 
     def on_press(key):

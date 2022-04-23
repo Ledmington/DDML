@@ -20,6 +20,7 @@ class Peer(Worker):
         seconds_wait=5,
         silence_interval=10,
         dead_interval=30,
+        log_fmt=ColoredFormatter(),
     ):
         self.port = assert_int(port, lambda x: 0 < x < 65536)
         self.bufsize = assert_int(bufsize, lambda x: x > 0)
@@ -37,30 +38,30 @@ class Peer(Worker):
 
         self.peer_ip = socket.gethostbyname(socket.gethostname())
 
-        self._setup_logger()
+        self._setup_logger(log_fmt)
         self.logger = logging.getLogger("ddml-peer")
 
         self.logger.info(f"Peer ready at ({self.peer_ip})")
         Worker.__init__(self, task=self._recv_parse_loop)
 
-    def _setup_logger(self):
+    def _setup_logger(self, console_fmt=ColoredFormatter()):
         # create logs directory
         # if not os.path.exists("logs"):
         #    os.mkdir("logs")
 
         self.logger = logging.getLogger("ddml-peer")
         self.logger.setLevel(logging.INFO)
-        formatter = logging.Formatter(
-            "[%(asctime)s][%(levelname)s]: %(message)s", "%m-%d-%Y %H:%M:%S"
-        )
 
         stdout_handler = logging.StreamHandler(sys.stdout)
         stdout_handler.setLevel(logging.DEBUG)
-        stdout_handler.setFormatter(ColoredFormatter())
+        stdout_handler.setFormatter(console_fmt)
         self.logger.addHandler(stdout_handler)
 
         # file_handler = logging.FileHandler("logs/ddml-peer.log")
         # file_handler.setLevel(logging.DEBUG)
+        # formatter = logging.Formatter(
+        #    "[%(asctime)s][%(levelname)s]: %(message)s", "%m-%d-%Y %H:%M:%S"
+        # )
         # file_handler.setFormatter(formatter)
         # logger.addHandler(file_handler)
 
