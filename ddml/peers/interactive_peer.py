@@ -24,12 +24,17 @@ class InteractivePeer(Peer):
         Peer.__init__(self, log_fmt=self.CustomFormatter())
         self.logger.info("Interactive peer ready")
 
-    def on_press(key):
-        print("{0} pressed".format(key))
+    # def on_press(key):
+    #    print("{0} pressed".format(key))
 
-    def on_release(key):
+    def on_release(self, key):
         print("{0} release".format(key))
-        if key == Key.esc:
+        if key.char in ("s", "S"):
+            self.die()
+            return False
+        elif key.char in ("l", "L"):
+            print("\n".join(self.known_peers))
+        elif key == Key.esc:
             # Stop listener
             return False
 
@@ -37,6 +42,7 @@ class InteractivePeer(Peer):
         super().start()
         # setting up keyboard "shortcuts"
         with Listener(
-            on_press=InteractivePeer.on_press, on_release=InteractivePeer.on_release
+            # on_press=InteractivePeer.on_press,
+            on_release=self.on_release
         ) as listener:
             listener.join()

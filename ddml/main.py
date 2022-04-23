@@ -21,7 +21,7 @@ def main(arguments):
         from ddml.peers.interactive_peer import InteractivePeer
 
         print("Starting an interactive peer")
-        print("============================")
+        print("============================", flush=True)
         p = InteractivePeer()
         p.start()
         p.join()

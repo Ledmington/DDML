@@ -126,6 +126,7 @@ class Peer(Worker):
         self.logger.info(f"Peer started at {self.peer_ip}")
 
     def die(self):
+        self.logger.info("Shutting down")
         Worker.die(self)
 
     def join(self):
