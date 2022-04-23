@@ -20,16 +20,16 @@ def main(arguments):
     if arguments.interactive is True:
         from ddml.peers.interactive_peer import InteractivePeer
 
-        print("Starting an interactive peer")
-        print("============================", flush=True)
+        msg = "Starting an interactive peer"
+        print(msg + "\n" + "=" * len(msg) + "\n")
         p = InteractivePeer()
         p.start()
         p.join()
     else:
         from ddml.peers.peer import Peer
 
-        print("Starting a non-interactive peer")
-        print("===============================")
+        msg = "Starting a non-interactive peer"
+        print(msg + "\n" + ("=" * len(msg)))
         p = Peer()
         p.start()
         p.join()

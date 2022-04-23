@@ -31,7 +31,7 @@ class InteractivePeer(Peer):
         print("{0} release".format(key))
         if key.char in ("s", "S"):
             self.die()
-            return False
+            return False  # stops the listener
         elif key.char in ("l", "L"):
             print("\n".join(self.known_peers))
         elif key == Key.esc:
