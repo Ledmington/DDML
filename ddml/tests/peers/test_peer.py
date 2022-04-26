@@ -90,18 +90,6 @@ def test_port_is_valid():
             p = Peer(port=x)
 
 
-def test_bufsize_is_int():
-    for x in [None, "abc", 1.5, [], (), dict(), set()]:
-        with pytest.raises(TypeError):
-            p = Peer(bufsize=x)
-
-
-def test_bufsize_is_valid():
-    for x in [-1, 0]:
-        with pytest.raises(ValueError):
-            p = Peer(bufsize=x)
-
-
 def test_wait_is_int():
     for x in [None, "abc", 1.5, [], (), dict(), set()]:
         with pytest.raises(TypeError):
