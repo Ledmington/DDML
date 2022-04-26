@@ -13,7 +13,6 @@ pytest = "^5.2"
 testcontainers = "^3.5.3"
 pytest-cov = "^3.0.0"
 black = "^22.3.0"
-mutmut = "^2.4.0"
 Sphinx = "^4.5.0"
 sphinx-rtd-theme = "^1.0.0"
 
