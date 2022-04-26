@@ -19,7 +19,7 @@ class DeadPeer(Peer):
             raise RuntimeError
         self.called = True
         print(f"Peer started ({self.peer_ip})")
-        self.s.sendto(Protocol.NEW_MSG.encode(), ("<broadcast>", self.port))
+        self._broadcast(Protocol.NEW_MSG)
         print("Peer dead")
 
     def die(self):
