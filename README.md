@@ -36,3 +36,12 @@ To run a specific test file, run:
 ```
 poetry run pytest path/to/test/file.py
 ```
+
+### Generate documentation
+This project uses `Sphinx` to generate the documentation. Simply run
+```bash
+cd doc
+make clean
+make html
+```
+and the documentation will be available at `./doc/build/html/index.html`.
