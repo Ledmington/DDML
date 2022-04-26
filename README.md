@@ -28,6 +28,8 @@ from the root directory of the project.
 To run all tests, simply run `make` or `make cov` from the root directory of the project, these commands will generate an HTML coverage report.
 You can view it from `./cov_report/index.html`.
 
+Running all tests at once, including those in the `ddml/tests/peers/integration` folder, can take quite a long time. To shorten this time (and to debug easily, if needed), run `make build` before `make cov`. With this command, the container images needed for the integration testing are built and stored.
+
 To run a specific test file, run:
 ```
 poetry run pytest path/to/test/file.py
