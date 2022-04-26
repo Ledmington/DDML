@@ -50,6 +50,9 @@ jobs:
         with:
           username: filippobarbari
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Clean directory
+        run: make clean
           
       - name: Build and push
         uses: docker/build-push-action@v2
