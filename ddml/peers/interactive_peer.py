@@ -6,7 +6,12 @@ from ddml.utils.colors import ColoredFormatter
 
 
 class InteractivePeer(Peer):
+    """
+    Interactive version of Peer.
+    """
+
     class CustomFormatter(ColoredFormatter):
+        # TODO: remove from here
         erase_one_line = "\033[1A\033[K"
         commands_bar = "[S]top | [L]ist | [T]rain"
 

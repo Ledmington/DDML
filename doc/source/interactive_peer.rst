@@ -1,5 +1,9 @@
 Interactive Peer
 ================
 
-.. automodule:: ddml.peers.interactive_peer
-    :members: InteractivePeer
+.. autoclass:: ddml.peers.interactive_peer.InteractivePeer
+    :members:
+    :no-undoc-members:
+    :no-private-members:
+    :no-special-members:
+    :show-inheritance:
