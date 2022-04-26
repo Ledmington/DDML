@@ -1,4 +1,6 @@
 # Decentralized Distributed Machine Learning
+![example workflow](https://github.com/Ledmington/DDML/actions/workflows/main.yml/badge.svg)
+
 Train ML models in a distributed and decentralized manner.
 
 ## Instructions
