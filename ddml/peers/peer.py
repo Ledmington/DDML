@@ -109,7 +109,7 @@ class Peer(Worker):
     def _recv_parse_loop(self):
         self.logger.info(f"I know {len(self.known_peers)} other peers")
         try:
-            msg, address = self.s.recvfrom(self.bufsize)
+            msg, address = self.s.recvfrom(Peer.BUFSIZE)
             self._parse_request(msg.decode(), address[0])
         except socket.timeout:
             self.logger.info(f"{self.seconds_to_wait} seconds without answer")
