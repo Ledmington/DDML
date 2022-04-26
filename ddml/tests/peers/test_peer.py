@@ -79,7 +79,7 @@ def test_can_join_twice():
 
 
 def test_port_is_int():
-    for x in [None, "abc", 1.5, [], (), dict(), set()]:
+    for x in [None, True, "abc", 1.5, [], (), dict(), set()]:
         with pytest.raises(TypeError):
             p = Peer(port=x)
 
@@ -90,8 +90,14 @@ def test_port_is_valid():
             p = Peer(port=x)
 
 
+def test_broadcast_is_bool():
+    for x in [None, 0, "abc", 1.5, [], (), dict(), set()]:
+        with pytest.raises(TypeError):
+            p = Peer(broadcast=x)
+
+
 def test_wait_is_int():
-    for x in [None, "abc", 1.5, [], (), dict(), set()]:
+    for x in [None, True, "abc", 1.5, [], (), dict(), set()]:
         with pytest.raises(TypeError):
             p = Peer(seconds_wait=x)
 
@@ -103,7 +109,7 @@ def test_wait_is_valid():
 
 
 def test_interval_is_int():
-    for x in [None, "abc", 1.5, [], (), dict(), set()]:
+    for x in [None, True, "abc", 1.5, [], (), dict(), set()]:
         with pytest.raises(TypeError):
             p = Peer(silence_interval=x)
 
@@ -115,7 +121,7 @@ def test_interval_is_valid():
 
 
 def test_dead_interval_is_int():
-    for x in [None, "abc", 1.5, [], (), dict(), set()]:
+    for x in [None, True, "abc", 1.5, [], (), dict(), set()]:
         with pytest.raises(TypeError):
             p = Peer(dead_interval=x)
 

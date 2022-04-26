@@ -16,6 +16,7 @@ class Peer(Worker):
     def __init__(
         self,
         port=PORT,
+        broadcast=True,
         peers=[],
         seconds_wait=5,
         silence_interval=10,
@@ -26,6 +27,10 @@ class Peer(Worker):
         self.seconds_to_wait = assert_int(seconds_wait, lambda x: x > 0)
         self.max_seconds_without_answers = assert_int(silence_interval, lambda x: x > 0)
         self.seconds_to_be_dead = assert_int(dead_interval, lambda x: x > 0)
+
+        if type(broadcast) is not bool:
+            raise TypeError("Broadcast must be boolean")
+        self.broadcast = broadcast
 
         self.known_peers = dict()
 
@@ -42,6 +47,15 @@ class Peer(Worker):
 
         self.logger.info(f"Peer ready at ({self.peer_ip})")
         Worker.__init__(self, task=self._recv_parse_loop)
+
+    def _broadcast(self, msg: str):
+        self.logger.info(f'Broadcasting "{msg}"')
+        if self.broadcast is True:
+            # TODO: change this address to LAN broadcast
+            self.s.sendto(msg.encode(), ("<broadcast>", self.port))
+
+        for peer in self.known_peers:
+            self.s.sendto(msg.encode(), (peer, self.port))
 
     def _setup_logger(self, console_fmt=ColoredFormatter()):
         # create logs directory
@@ -120,7 +134,7 @@ class Peer(Worker):
             raise RuntimeError("Cannot start an already alive Peer")
         if Worker.is_shutdown(self) is True:
             raise RuntimeError("Cannot start a dying Peer")
-        self.s.sendto(Protocol.NEW_MSG.encode(), ("<broadcast>", self.port))
+        self._broadcast(Protocol.NEW_MSG)
         Worker.start(self)
         self.logger.info(f"Peer started at {self.peer_ip}")
 
@@ -133,7 +147,7 @@ class Peer(Worker):
         Worker.join(self)
         self.logger.info(f'Broadcasting "{Protocol.LEAVE_MSG}"')
         if self.s is not None:
-            self.s.sendto(Protocol.LEAVE_MSG.encode(), ("<broadcast>", self.port))
+            self._broadcast(Protocol.LEAVE_MSG)
             self.s.close()
             self.s = None
         self.logger.info("Peer dead")

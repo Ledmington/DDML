@@ -1,6 +1,5 @@
 import sys
 import argparse
-import re
 
 from ddml.peers.peer import Peer
 from ddml.utils.colors import colored
@@ -31,18 +30,22 @@ def main(arguments):
     if hasattr(arguments, "port"):
         port = arguments.port
 
+    broadcast = True
+    if hasattr(arguments, "no-broadcast"):
+        broadcast = False
+
     if hasattr(arguments, "interactive"):
         from ddml.peers.interactive_peer import InteractivePeer
 
         msg = "Starting an interactive peer"
         print(msg + "\n" + "=" * len(msg) + "\n")
-        p = InteractivePeer(port=port)
+        p = InteractivePeer(port=port, broadcast=broadcast)
         p.start()
         p.join()
     else:
         msg = "Starting a non-interactive peer"
         print(msg + "\n" + ("=" * len(msg)))
-        p = Peer(port=port)
+        p = Peer(port=port, broadcast=broadcast)
         p.start()
         p.join()
 
@@ -103,7 +106,5 @@ if __name__ == "__main__":
     parser = setup_parser()
 
     args = parser.parse_args()
-
-    print(args)
 
     main(args)
