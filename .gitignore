@@ -14,9 +14,9 @@ cov_report/
 venv
 
 # Documentation
-doc/*
-!doc/*.tex
-!doc/*.bib
+report/*
+!report/*.tex
+!report/*.bib
 
 # Misc
 *.pdf
