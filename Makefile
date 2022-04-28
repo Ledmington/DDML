@@ -24,6 +24,9 @@ run:
 interactive:
 	${RUN} python3 ddml/main.py -i
 
+check:
+	${RUN} pylint ddml
+
 clean:
 	rm -rf cov_report dist .coverage .idea
 	find ./ddml | grep __pycache__$ | xargs rm -rf
