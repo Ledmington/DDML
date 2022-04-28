@@ -1,5 +1,9 @@
 Worker
 ======
 
-.. automodule:: ddml.utils.worker
-    :members: Worker
+.. autoclass:: ddml.utils.worker.Worker
+    :members:
+    :no-undoc-members:
+    :no-private-members:
+    :no-special-members:
+    :show-inheritance:

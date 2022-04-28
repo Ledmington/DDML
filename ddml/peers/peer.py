@@ -10,6 +10,10 @@ from ddml.utils.colors import ColoredFormatter
 
 
 class Peer(Worker):
+    """
+    Peer of the Decentralized Distributed Machine Learning project.
+    """
+
     PORT = 10000
     BUFSIZE = 1024
 
@@ -23,6 +27,29 @@ class Peer(Worker):
         dead_interval=30,
         log_fmt=ColoredFormatter(),
     ):
+        """
+        Args:
+            port: the port
+            broadcast: tells the peer to broadcast
+            peers: list of peers
+            seconds_wait: the seconds to wait
+            silence_interval: time to wait before responding?
+            dead_interval: time to wait to declare another peer dead
+            log_fmt: formatter for the logger
+
+        Raises:
+            TypeError: if port is not an int
+            TypeError: if seconds_wait is not an int
+            TypeError: if silence_interval is not an int
+            TypeError: if dead_interval is not an int
+            TypeError: if broadcast is not a bool
+
+            ValueError: if port is less than 0 or more than 65536
+            ValueError: if seconds_wait is less or equal to 0
+            ValueError: if silence_interval is less or equal to 0
+            ValueError: if dead_interval is less or equal to 0
+        """
+
         self.port = assert_int(port, lambda x: 0 < x < 65536)
         self.seconds_to_wait = assert_int(seconds_wait, lambda x: x > 0)
         self.max_seconds_without_answers = assert_int(silence_interval, lambda x: x > 0)
@@ -79,6 +106,10 @@ class Peer(Worker):
         # logger.addHandler(file_handler)
 
     def is_alive(self):
+        """
+        TODO
+        """
+
         return self.s is not None and Worker.is_alive(self)
 
     def _assert_alive(self):
@@ -130,6 +161,10 @@ class Peer(Worker):
             self._check_dead_peers()
 
     def start(self):
+        """
+        TODO
+        """
+
         if self.is_alive() is True:
             raise RuntimeError("Cannot start an already alive Peer")
         if Worker.is_shutdown(self) is True:
@@ -139,10 +174,18 @@ class Peer(Worker):
         self.logger.info(f"Peer started at {self.peer_ip}")
 
     def die(self):
+        """
+        TODO
+        """
+
         self.logger.info("Shutting down")
         Worker.die(self)
 
     def join(self):
+        """
+        TODO
+        """
+
         self.logger.info("Waiting for the peer to die")
         Worker.join(self)
         self.logger.info(f'Broadcasting "{Protocol.LEAVE_MSG}"')
