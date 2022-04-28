@@ -1,6 +1,7 @@
 RUN=poetry run
 
-.PHONY: cov
+all: clean build check cov
+.PHONY: all
 
 build:
 	docker-compose -f run.yml build
