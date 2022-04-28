@@ -12,9 +12,9 @@ class Worker(Thread):
         """
         TODO
         """
-        
+
         if not callable(task):
-            raise TypeError
+            raise TypeError("task must be a callable")
 
         if name is None:
             name = "worker-" + str(Worker.id)
@@ -29,21 +29,13 @@ class Worker(Thread):
         """
         TODO
         """
-        
+
         return self.shutdown
 
     def is_alive(self) -> bool:
-        """
-        TODO
-        """
-        
         return Thread.is_alive(self)
 
     def start(self):
-        """
-        TODO
-        """
-        
         Thread.start(self)
 
     def _loop(self):
@@ -53,15 +45,11 @@ class Worker(Thread):
     def die(self):
         """
         Tells the worker to terminate.
-        
+
         This is a non-blocking call. To wait for Worker's death, use join().
         """
-        
+
         self.shutdown = True
 
-    def join(self):
-        """
-        Waits for the Worker to terminate.
-        """
-        
-        Thread.join(self)
+    def join(self, timeout=None):
+        Thread.join(self, timeout)

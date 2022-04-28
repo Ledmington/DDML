@@ -103,8 +103,8 @@ def setup_parser():
 
 
 if __name__ == "__main__":
-    parser = setup_parser()
+    arg_parser = setup_parser()
 
-    args = parser.parse_args()
+    args = arg_parser.parse_args()
 
     main(args)
