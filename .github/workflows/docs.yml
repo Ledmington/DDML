@@ -15,6 +15,9 @@ jobs:
       with:
         fetch-depth: 0
 
+    - name: Install themes
+      run: pip install sphinx_rtd_theme
+
     - name: Build and Commit
       uses: sphinx-notes/pages@v2
 
