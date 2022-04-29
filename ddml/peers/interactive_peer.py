@@ -25,15 +25,15 @@ class InteractivePeer(Peer):
                 + self.commands_bar
             )
 
-    def __init__(self):
-        Peer.__init__(self, log_fmt=self.CustomFormatter())
+    def __init__(self, port=Peer.PORT, broadcast=True):
+        Peer.__init__(self, port, broadcast, log_fmt=self.CustomFormatter())
         self.logger.info("Interactive peer ready")
 
     # def on_press(key):
     #    print("{0} pressed".format(key))
 
     def on_release(self, key):
-        print("{0} release".format(key))
+        print(f"{key} release")
         if key.char in ("s", "S"):
             self.die()
             return False  # stops the listener

@@ -29,7 +29,7 @@ class ColoredFormatter(logging.Formatter):
     msg = "%(message)s"
 
     FORMATS = {
-        logging.DEBUG: time + "[" + colored(level, "grey") + "]: " + msg,
+        logging.DEBUG: f'[{time}][{colored(level, "grey")}]: {msg}',
         logging.INFO: time + "[" + colored(level, "blue") + "]: " + msg,
         logging.WARNING: time + "[" + colored(level, "yellow") + "]: " + msg,
         logging.ERROR: time + "[" + colored(level, "red") + "]: " + msg,
@@ -37,6 +37,6 @@ class ColoredFormatter(logging.Formatter):
     }
 
     def format(self, record):
-        log_fmt = self.FORMATS.get(record.levelno)
+        log_fmt = self.FORMATS[record.levelno]
         formatter = logging.Formatter(log_fmt)
         return formatter.format(record)

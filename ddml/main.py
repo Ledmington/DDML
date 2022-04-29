@@ -15,7 +15,7 @@ def set_interactive_mode(config: dict):
     config["interactive"] = True
 
 
-def main(arguments):
+def main(parser, arguments):
     if hasattr(arguments, "help"):
         print_version()
         parser.print_help()
@@ -107,4 +107,4 @@ if __name__ == "__main__":
 
     args = arg_parser.parse_args()
 
-    main(args)
+    main(arg_parser, args)

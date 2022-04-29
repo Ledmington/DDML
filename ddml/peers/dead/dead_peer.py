@@ -25,7 +25,7 @@ class DeadPeer(Peer):
     def die(self):
         pass
 
-    def join(self):
+    def join(self, timeout=None):
         pass
 
 

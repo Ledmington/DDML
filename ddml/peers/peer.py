@@ -181,14 +181,14 @@ class Peer(Worker):
         self.logger.info("Shutting down")
         Worker.die(self)
 
-    def join(self):
+    def join(self, timeout=None):
         """
         TODO
         """
 
         self.logger.info("Waiting for the peer to die")
-        Worker.join(self)
-        self.logger.info(f'Broadcasting "{Protocol.LEAVE_MSG}"')
+        Worker.join(self, timeout)
+        self.logger.info(f'Broadcasting "{Protocol.LEAVE_MSG:s}"')
         if self.s is not None:
             self._broadcast(Protocol.LEAVE_MSG)
             self.s.close()
