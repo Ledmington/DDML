@@ -1,16 +1,27 @@
+"""
+Simple module containing just the Worker class.
+"""
+
 from threading import Thread
 
 
 class Worker(Thread):
     """
-    TODO
+    Utility class that represents a Thread that never terminate by itself.
     """
 
     id = 0
 
     def __init__(self, task, name=None):
         """
-        TODO
+        Creates the Worker without starting it.
+
+        Args:
+            task: the task to be executed in each iteration of an infinite loop
+            name: an optional string
+
+        Raises:
+            TypeError: if task is not a callable
         """
 
         if not callable(task):
@@ -27,7 +38,13 @@ class Worker(Thread):
 
     def is_shutdown(self) -> bool:
         """
-        TODO
+        Checks whether the Worker is shutdown or not.
+
+        A shutdown Worker does not terminate istantly, it executes the task one
+        last time.
+
+        Returns:
+            True if it if shutdown, False otherwise
         """
 
         return self.shutdown
@@ -44,7 +61,7 @@ class Worker(Thread):
 
     def die(self):
         """
-        Tells the worker to terminate.
+        Shuts down the Worker.
 
         This is a non-blocking call. To wait for Worker's death, use join().
         """
