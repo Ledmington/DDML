@@ -1,0 +1,25 @@
+# Python caches
+**/__pycache__
+**/.pytest_cache
+
+# Poetry build files
+dist/
+
+# Coverage report
+cov_report/
+.coverage*
+!.coveragerc
+
+# Virtual environment
+venv
+
+# Documentation
+report/*
+!report/*.tex
+!report/*.bib
+docs/_build
+
+# Misc
+*.pdf
+.idea/
+.mutmut-cache
