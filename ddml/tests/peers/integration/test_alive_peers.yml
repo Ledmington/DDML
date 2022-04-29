@@ -6,5 +6,6 @@ services:
       context: ../../../..
       dockerfile: peer.Dockerfile
     tty: true
-    deploy: replicated
-    replicas: 4
+    deploy:
+      mode: replicated
+      replicas: 4
