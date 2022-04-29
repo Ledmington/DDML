@@ -2,7 +2,6 @@ import sys
 import argparse
 
 from ddml.peers.peer import Peer
-from ddml.utils.colors import colored
 
 
 def print_version():
@@ -52,7 +51,8 @@ def main(parser, arguments):
 
 def setup_parser():
     parser = argparse.ArgumentParser(
-        description="A peer designed to train machine learning models in a decentralized and distributed manner.",
+        description="A peer designed to train machine learning models in a "
+        + "decentralized and distributed manner.",
         allow_abbrev=False,
         add_help=False,
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,

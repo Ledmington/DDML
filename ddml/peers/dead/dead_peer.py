@@ -1,8 +1,20 @@
+"""
+A module that contains the DeadPeer class.
+
+This is used only for internal testing.
+"""
+
 from ddml.peers.peer import Peer
 from ddml.peers.protocol import Protocol
 
 
 class DeadPeer(Peer):
+    """
+    Class that represents a Peer that terminates tìright after having started.
+
+    This class is used only for internal testing.
+    """
+
     def __init__(self):
         Peer.__init__(self)
         self.parse_request = None

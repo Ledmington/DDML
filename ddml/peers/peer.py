@@ -145,10 +145,10 @@ class Peer(Worker):
             time_passed = (datetime.now() - last_response).seconds
             if time_passed >= self.seconds_to_be_dead:
                 # This peer is considered dead
-                self.logger.warn(f"{address} is dead")
+                self.logger.warning(f"{address} is dead")
                 del self.known_peers[address]
             elif time_passed >= self.max_seconds_without_answers:
-                self.logger.warn(f"Long time no news from {address}")
+                self.logger.warning(f"Long time no news from {address}")
                 self.s.sendto(Protocol.HELLO_MSG.encode(), (address, self.port))
 
     def _recv_parse_loop(self):
