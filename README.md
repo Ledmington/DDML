@@ -44,4 +44,4 @@ cd docs
 make clean
 make html
 ```
-and the documentation will be available at `./docs/build/html/index.html`.
+and the documentation will be available at `./docs/_build/html/index.html`.

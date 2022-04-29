@@ -17,7 +17,7 @@ venv
 report/*
 !report/*.tex
 !report/*.bib
-docs/build
+docs/_build
 
 # Misc
 *.pdf
