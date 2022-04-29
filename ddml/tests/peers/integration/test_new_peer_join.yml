@@ -1,0 +1,17 @@
+version: "3.0"
+
+services:
+  normal-peer:
+    container_name: normal_peer
+    build:
+      context: ../../../..
+      dockerfile: peer.Dockerfile
+    tty: true
+  
+  delayed-peer:
+    container_name: delayed_peer
+    build:
+      context: ../../../..
+      dockerfile: peer.Dockerfile
+    command: sh -c "sleep 10 && poetry run python3 ddml/main.py"
+    tty: true

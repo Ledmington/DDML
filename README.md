@@ -3,6 +3,8 @@
 
 Train ML models in a distributed and decentralized manner.
 
+You can find the official documentation [here](https://ledmington.github.io/DDML/).
+
 ## Instructions
 ### Running the Docker container
 The container image is available on [DockerHub](https://hub.docker.com/r/filippobarbari/ddml-peer), you can run it with:
