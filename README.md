@@ -5,7 +5,7 @@ Train ML models in a distributed and decentralized manner.
 
 ## Instructions
 ### Running the Docker container
-You can run the peer packaged inside a docker container with:
+The container image is available on [DockerHub](https://hub.docker.com/r/filippobarbari/ddml-peer), you can run it with:
 ```bash
 docker run -it --rm filippobarbari/ddml-peer
 ```
@@ -40,8 +40,8 @@ poetry run pytest path/to/test/file.py
 ### Generate documentation
 This project uses `Sphinx` to generate the documentation. Simply run
 ```bash
-cd doc
+cd docs
 make clean
 make html
 ```
-and the documentation will be available at `./doc/build/html/index.html`.
+and the documentation will be available at `./docs/build/html/index.html`.
