@@ -34,14 +34,14 @@ class InteractivePeer(Peer):
 
     def on_release(self, key):
         print(f"{key} release")
-        if key.char in ("s", "S"):
+        if key.char in "sS":
             self.die()
             return False  # stops the listener
-        elif key.char in ("l", "L"):
+        elif key.char in "lL":
             print("\n".join(self.known_peers))
-        elif key == Key.esc:
-            # Stop listener
-            return False
+        # elif key == Key.esc:
+        #    # Stop listener
+        #    return False
 
     def start(self):
         super().start()
