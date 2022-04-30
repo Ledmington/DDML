@@ -1,3 +1,7 @@
+"""
+This module contains the Peer class, core of the DDML project.
+"""
+
 import sys
 import socket
 from datetime import datetime
@@ -8,7 +12,7 @@ from ddml.utils.asserts import assert_int
 from ddml.utils.worker import Worker
 from ddml.utils.colors import ColoredFormatter
 
-
+# pylint: disable=too-many-instance-attributes
 class Peer(Worker):
     """
     Peer of the Decentralized Distributed Machine Learning project.
@@ -17,6 +21,7 @@ class Peer(Worker):
     PORT = 10000
     BUFSIZE = 1024
 
+    # pylint: disable=too-many-arguments
     def __init__(
         self,
         port=PORT,
@@ -84,8 +89,7 @@ class Peer(Worker):
     def _broadcast(self, msg: str):
         self.logger.info('Broadcasting "%s"', msg)
         if self.broadcast is True:
-            # TODO: change this address to LAN broadcast
-            self.peer_socket.sendto(msg.encode(), ("<broadcast>", self.port))
+            self.peer_socket.sendto(msg.encode(), ("255.255.255.255", self.port))
 
         for peer in self.known_peers:
             self.peer_socket.sendto(msg.encode(), (peer, self.port))
@@ -137,7 +141,7 @@ class Peer(Worker):
             self.logger.info("A peers has leaved the network (%s)", address)
             self.known_peers.pop(address)
         elif msg == Protocol.HELLO_MSG:
-            self.logger.info("Received hello packet from %s", address)
+            self.logger.info('Answering with "%s"', Protocol.ALIVE_MSG)
             self.peer_socket.sendto(Protocol.ALIVE_MSG.encode(), (address, self.port))
         elif msg == Protocol.ALIVE_MSG:
             # Do nothing (because we already updated its last response)
