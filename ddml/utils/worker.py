@@ -63,7 +63,7 @@ class Worker(Thread):
         """
         Shuts down the Worker.
 
-        This is a non-blocking call. To wait for Worker's death, use join().
+        This is a non-blocking call. To wait for Worker's termination, use join().
         """
 
         self.shutdown = True

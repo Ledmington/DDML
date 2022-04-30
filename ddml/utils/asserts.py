@@ -1,3 +1,8 @@
+"""
+This module contains some useful functions to simplify the user input checking.
+"""
+
+
 def assert_int(value, predicate=None):
     """
     Utility function that checks whether a given value is an integer.

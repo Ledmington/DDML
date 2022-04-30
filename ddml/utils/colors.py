@@ -1,3 +1,8 @@
+"""
+This module defines a utility function (colored) that uses ANSI escape sequences
+to color a string and the class ColoredFormatter that colors the log.
+"""
+
 import logging
 
 # ANSI colors
@@ -10,6 +15,21 @@ RESET = "\x1b[0m"
 
 
 def colored(msg: str, color: str):
+    """
+    Returns a colored version of the given string using ANSI escape sequences.
+
+    Args:
+        msg: the string to be colored
+        color: a string with the name of the color.
+            Currently only grey, blue, yellow, red and bold_red are supported.
+
+    Returns:
+        the colored string
+
+    Raises:
+        ValueError: if the given color is not supported
+    """
+
     colors = {
         "grey": GREY,
         "blue": BLUE,
@@ -23,6 +43,9 @@ def colored(msg: str, color: str):
 
 
 class ColoredFormatter(logging.Formatter):
+    """
+    A simple Formatter to have colored console logging.
+    """
 
     time = "[%(asctime)s]"
     level = "%(levelname)s"

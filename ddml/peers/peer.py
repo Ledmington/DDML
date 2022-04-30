@@ -21,16 +21,18 @@ class Peer(Worker):
         self,
         port=PORT,
         broadcast=True,
-        peers=[],
+        peers=None,
         seconds_wait=5,
         silence_interval=10,
         dead_interval=30,
         log_fmt=ColoredFormatter(),
     ):
         """
+        Creates a Peer without making it start.
+
         Args:
             port: the port
-            broadcast: tells the peer to broadcast
+            broadcast: tells the peer to broadcast in the LAN
             peers: list of peers
             seconds_wait: the seconds to wait
             silence_interval: time to wait before responding?
@@ -55,34 +57,38 @@ class Peer(Worker):
         self.max_seconds_without_answers = assert_int(silence_interval, lambda x: x > 0)
         self.seconds_to_be_dead = assert_int(dead_interval, lambda x: x > 0)
 
-        if type(broadcast) is not bool:
+        if not isinstance(broadcast, bool):
             raise TypeError("Broadcast must be boolean")
         self.broadcast = broadcast
 
-        self.known_peers = dict()
-
-        self.s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self.s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        self.s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-        self.s.settimeout(self.seconds_to_wait)
-        self.s.bind(("", self.port))
+        self.peer_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.peer_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        self.peer_socket.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+        self.peer_socket.settimeout(self.seconds_to_wait)
+        self.peer_socket.bind(("", self.port))
 
         self.peer_ip = socket.gethostbyname(socket.gethostname())
 
         self._setup_logger(log_fmt)
         self.logger = logging.getLogger("ddml-peer")
 
-        self.logger.info(f"Peer ready at ({self.peer_ip})")
+        self.logger.info("Peer ready at (%s)", self.peer_ip)
         Worker.__init__(self, task=self._recv_parse_loop)
 
+        self.known_peers = {}
+        if peers is not None:
+            for peer_address in peers:
+                self.logger.info('Adding "%s" to the list of known peers', peer_address)
+                self.known_peers[peer_address] = datetime.now()
+
     def _broadcast(self, msg: str):
-        self.logger.info(f'Broadcasting "{msg}"')
+        self.logger.info('Broadcasting "%s"', msg)
         if self.broadcast is True:
             # TODO: change this address to LAN broadcast
-            self.s.sendto(msg.encode(), ("<broadcast>", self.port))
+            self.peer_socket.sendto(msg.encode(), ("<broadcast>", self.port))
 
         for peer in self.known_peers:
-            self.s.sendto(msg.encode(), (peer, self.port))
+            self.peer_socket.sendto(msg.encode(), (peer, self.port))
 
     def _setup_logger(self, console_fmt=ColoredFormatter()):
         # create logs directory
@@ -110,7 +116,7 @@ class Peer(Worker):
         TODO
         """
 
-        return self.s is not None and Worker.is_alive(self)
+        return self.peer_socket is not None and Worker.is_alive(self)
 
     def _assert_alive(self):
         if not self.is_alive():
@@ -123,16 +129,16 @@ class Peer(Worker):
         # Updating last_response
         self.known_peers[address] = datetime.now()
 
-        self.logger.info(f'Received message "{msg}" from address "{address}"')
+        self.logger.info('Received message "%s" from address "%s"', msg, address)
 
         if msg == Protocol.NEW_MSG:
-            self.logger.info(f"A new peer has joined the network ({address})")
+            self.logger.info("A new peer has joined the network (%s)", address)
         elif msg == Protocol.LEAVE_MSG:
-            self.logger.info(f"A peers has leaved the network ({address})")
-            self.known_peers.remove(address)
+            self.logger.info("A peers has leaved the network (%s)", address)
+            self.known_peers.pop(address)
         elif msg == Protocol.HELLO_MSG:
-            self.logger.info(f"Received hello packet from {address}")
-            self.s.sendto(Protocol.ALIVE_MSG.encode(), (address, self.port))
+            self.logger.info("Received hello packet from %s", address)
+            self.peer_socket.sendto(Protocol.ALIVE_MSG.encode(), (address, self.port))
         elif msg == Protocol.ALIVE_MSG:
             # Do nothing (because we already updated its last response)
             pass
@@ -145,19 +151,21 @@ class Peer(Worker):
             time_passed = (datetime.now() - last_response).seconds
             if time_passed >= self.seconds_to_be_dead:
                 # This peer is considered dead
-                self.logger.warning(f"{address} is dead")
+                self.logger.warning("%s is dead", address)
                 del self.known_peers[address]
             elif time_passed >= self.max_seconds_without_answers:
-                self.logger.warning(f"Long time no news from {address}")
-                self.s.sendto(Protocol.HELLO_MSG.encode(), (address, self.port))
+                self.logger.warning("Long time no news from %s", address)
+                self.peer_socket.sendto(
+                    Protocol.HELLO_MSG.encode(), (address, self.port)
+                )
 
     def _recv_parse_loop(self):
-        self.logger.info(f"I know {len(self.known_peers)} other peers")
+        self.logger.info("I know %d other peers", len(self.known_peers))
         try:
-            msg, address = self.s.recvfrom(Peer.BUFSIZE)
+            msg, address = self.peer_socket.recvfrom(Peer.BUFSIZE)
             self._parse_request(msg.decode(), address[0])
         except socket.timeout:
-            self.logger.info(f"{self.seconds_to_wait} seconds without answer")
+            self.logger.info("%d seconds without answer", self.seconds_to_wait)
             self._check_dead_peers()
 
     def start(self):
@@ -171,11 +179,13 @@ class Peer(Worker):
             raise RuntimeError("Cannot start a dying Peer")
         self._broadcast(Protocol.NEW_MSG)
         Worker.start(self)
-        self.logger.info(f"Peer started at {self.peer_ip}")
+        self.logger.info("Peer started at %s", self.peer_ip)
 
     def die(self):
         """
-        TODO
+        Shuts down the Peer.
+
+        This is a non-blocking call. To wait for Peer's termination, use join().
         """
 
         self.logger.info("Shutting down")
@@ -183,14 +193,19 @@ class Peer(Worker):
 
     def join(self, timeout=None):
         """
-        TODO
+        Waits for the Peer to terminate and broadcasts the LEAVE_MSG defined in the Protocol.
+
+        Args:
+            timeout: an optional float representing the maximum number of seconds to wait.
+                To check if a timeout occurred, you should call is_alive after join.
+                If timeout is not given, this method waits undefinitely.
         """
 
         self.logger.info("Waiting for the peer to die")
         Worker.join(self, timeout)
-        self.logger.info(f'Broadcasting "{Protocol.LEAVE_MSG:s}"')
-        if self.s is not None:
+        self.logger.info('Broadcasting "%s"', Protocol.LEAVE_MSG)
+        if self.peer_socket is not None:
             self._broadcast(Protocol.LEAVE_MSG)
-            self.s.close()
-            self.s = None
+            self.peer_socket.close()
+            self.peer_socket = None
         self.logger.info("Peer dead")
