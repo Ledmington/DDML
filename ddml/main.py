@@ -1,5 +1,6 @@
 # pylint: disable=missing-module-docstring
 import sys
+import os
 import argparse
 
 import ddml
@@ -29,21 +30,30 @@ def _main(parser, arguments):
     if hasattr(arguments, "no-broadcast"):
         broadcast = False
 
+    peers = []
+    if hasattr(arguments, "peers"):
+        # file
+        if os.path.exists(arguments.peers):
+            with open(arguments.peers, "r", encoding=sys.getdefaultencoding()) as file:
+                peers = list(file)
+        # list of values
+        else:
+            peers = arguments.peers.split(",")
+
     if hasattr(arguments, "interactive"):
         # pylint: disable=import-outside-toplevel
         from ddml.peers.interactive_peer import InteractivePeer
 
         msg = "Starting an interactive peer"
         print(msg + "\n" + "=" * len(msg) + "\n")
-        peer = InteractivePeer(port=port, broadcast=broadcast)
-        peer.start()
-        peer.join()
+        peer = InteractivePeer(port=port, broadcast=broadcast, peers=peers)
     else:
         msg = "Starting a non-interactive peer"
         print(msg + "\n" + ("=" * len(msg)))
-        peer = Peer(port=port, broadcast=broadcast)
-        peer.start()
-        peer.join()
+        peer = Peer(port=port, broadcast=broadcast, peers=peers)
+
+    peer.start()
+    peer.join()
 
 
 def _setup_parser():

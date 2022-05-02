@@ -29,8 +29,8 @@ class InteractivePeer(Peer):
                 + self.commands_bar
             )
 
-    def __init__(self, port=Peer.PORT, broadcast=True):
-        Peer.__init__(self, port, broadcast, log_fmt=self._CustomFormatter())
+    def __init__(self, port=Peer.PORT, broadcast=True, peers=None):
+        Peer.__init__(self, port, broadcast, peers, log_fmt=self._CustomFormatter())
         self.logger.info("Interactive peer ready")
 
     def on_release(self, key):
