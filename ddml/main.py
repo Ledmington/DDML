@@ -3,6 +3,7 @@ import sys
 import os
 import argparse
 import termios
+import re
 
 import ddml
 from ddml.peers.peer import Peer
@@ -40,6 +41,10 @@ def _main(parser, arguments):
         # list of values
         else:
             peers = arguments.peers.split(",")
+
+        for peer_ip in peers:
+            if not re.match(r"^\d{1,3}(\.\d{1,3}){3}$", peer_ip):
+                raise ValueError('"' + peer_ip + '" is not a valid IPv4 address')
 
     if hasattr(arguments, "interactive"):
         # pylint: disable=import-outside-toplevel
@@ -104,7 +109,7 @@ def _setup_parser():
         default=argparse.SUPPRESS,
         type=str,
         help="List of peers known in advance. Can be a sequence of comma separated "
-        + "IP addresses or a filename containing newline separated IP addresses.",
+        + "IP addresses or a filename containing newline separated IPv4 addresses.",
     )
 
     return parser
