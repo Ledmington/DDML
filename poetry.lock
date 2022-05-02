@@ -302,6 +302,35 @@ optional = false
 python-versions = ">=3.7"
 
 [[package]]
+name = "onnx"
+version = "1.11.0"
+description = "Open Neural Network Exchange"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+numpy = ">=1.16.6"
+protobuf = ">=3.12.2"
+typing-extensions = ">=3.6.2.1"
+
+[package.extras]
+mypy = ["mypy (==0.782)", "types-protobuf (==3.18.4)"]
+
+[[package]]
+name = "onnxconverter-common"
+version = "1.9.0"
+description = "ONNX Converter and Optimization Tools"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+numpy = "*"
+onnx = "*"
+protobuf = "*"
+
+[[package]]
 name = "packaging"
 version = "21.3"
 description = "Core utilities for Python packages"
@@ -345,6 +374,14 @@ importlib-metadata = {version = ">=0.12", markers = "python_version < \"3.8\""}
 
 [package.extras]
 dev = ["pre-commit", "tox"]
+
+[[package]]
+name = "protobuf"
+version = "3.20.1"
+description = "Protocol Buffers"
+category = "main"
+optional = false
+python-versions = ">=3.7"
 
 [[package]]
 name = "py"
@@ -576,6 +613,22 @@ optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
 
 [[package]]
+name = "skl2onnx"
+version = "1.11.1"
+description = "Convert scikit-learn models to ONNX"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+numpy = ">=1.15"
+onnx = ">=1.2.1"
+onnxconverter-common = ">=1.7.0"
+protobuf = "*"
+scikit-learn = ">=0.19"
+scipy = ">=1.0"
+
+[[package]]
 name = "snowballstemmer"
 version = "2.2.0"
 description = "This package provides 29 stemmers for 28 languages generated from Snowball algorithms."
@@ -757,7 +810,7 @@ python-versions = ">=3.6"
 name = "typing-extensions"
 version = "4.2.0"
 description = "Backported and Experimental Type Hints for Python 3.7+"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7"
 
@@ -818,7 +871,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "4eed153f3eebaabd95e9ca708a2087db132d42c0c7fe3cfe8efd8841fb741017"
+content-hash = "2756bbf486f6aaee0c94072b13b28f9981660882f44a70d9cb70d76d92eb8a23"
 
 [metadata.files]
 alabaster = [
@@ -1091,6 +1144,37 @@ numpy = [
     {file = "numpy-1.21.1-pp37-pypy37_pp73-manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:2d4d1de6e6fb3d28781c73fbde702ac97f03d79e4ffd6598b880b2d95d62ead4"},
     {file = "numpy-1.21.1.zip", hash = "sha256:dff4af63638afcc57a3dfb9e4b26d434a7a602d225b42d746ea7fe2edf1342fd"},
 ]
+onnx = [
+    {file = "onnx-1.11.0-cp36-cp36m-macosx_10_12_x86_64.whl", hash = "sha256:a6e9135f1d02539ca7573f699fb0d31d3c43d10fac1d2d2239a9a1c553506c29"},
+    {file = "onnx-1.11.0-cp36-cp36m-manylinux_2_12_i686.manylinux2010_i686.whl", hash = "sha256:b2de0b117ad77689d308824a0c9eb89539ec28a799b4e2e05b3bb977b0da0b45"},
+    {file = "onnx-1.11.0-cp36-cp36m-manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:f335d982b8ed201cf767459b993630acfd20c32b100529f70af9f28a26e72167"},
+    {file = "onnx-1.11.0-cp36-cp36m-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:593ca9e11f15afa26b3aaf2d170bb803d4bd86dbd560aa7be4e5f535d03f83d5"},
+    {file = "onnx-1.11.0-cp36-cp36m-win32.whl", hash = "sha256:df85666ab2b88fd9cf9b2504bcb551da39422eab65a143926a8db58f81b09164"},
+    {file = "onnx-1.11.0-cp36-cp36m-win_amd64.whl", hash = "sha256:82221a07707b1ccf71fb18c6abb77f2566517a55d5185809775b5ff008bfb35c"},
+    {file = "onnx-1.11.0-cp37-cp37m-macosx_10_12_x86_64.whl", hash = "sha256:4aa899f74acd4c5543f0efed8bfe98a3b701df75c5ffa179212e3088c51971bb"},
+    {file = "onnx-1.11.0-cp37-cp37m-manylinux_2_12_i686.manylinux2010_i686.whl", hash = "sha256:58d4873ec587ac14c44227d8027787edc88cd61596e646e3417f2a826a920898"},
+    {file = "onnx-1.11.0-cp37-cp37m-manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:7a2f5d6998fe79aed80fad9d4522140d02c4d29513047e335d5c5355c1ebda5e"},
+    {file = "onnx-1.11.0-cp37-cp37m-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:eb46f31f12bb0bfdcfb68497d10b20447cf8fa6c4f693120c013e052645357b8"},
+    {file = "onnx-1.11.0-cp37-cp37m-win32.whl", hash = "sha256:997d91ffd7b7ae7aee09c6d652a896d906be430d425865c759b51a8de5df9fe0"},
+    {file = "onnx-1.11.0-cp37-cp37m-win_amd64.whl", hash = "sha256:ea06dbf57a287657b6dc4e189918e4cb451450308589d482117216194d6f83d6"},
+    {file = "onnx-1.11.0-cp38-cp38-macosx_10_12_x86_64.whl", hash = "sha256:c3d3503110f2cab2c818f4a7b2bc8abc3bc79649daa39e70d5fb504b208ddb1e"},
+    {file = "onnx-1.11.0-cp38-cp38-manylinux_2_12_i686.manylinux2010_i686.whl", hash = "sha256:9b9f58ea01c1b20b057f55f628df4fc0403bbc160b7282a56e3bb4df5c7fb96f"},
+    {file = "onnx-1.11.0-cp38-cp38-manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:89420e5b824d7e182846fe2aa09190ddb41162b261465c6ca928174bc2ac10b7"},
+    {file = "onnx-1.11.0-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:d6ddbe89e32f885db736d36fcb132784e368331a18c3b6168ac9f561eb462057"},
+    {file = "onnx-1.11.0-cp38-cp38-win32.whl", hash = "sha256:0cf47c205b376b3763beef92a6de4152f3b1552d6f640d93044938500baf5958"},
+    {file = "onnx-1.11.0-cp38-cp38-win_amd64.whl", hash = "sha256:d6581dd2122525549d1d8b431b8bf375298993c77bddb8fd0bf0d92611df76a1"},
+    {file = "onnx-1.11.0-cp39-cp39-macosx_10_12_x86_64.whl", hash = "sha256:4454906de80a351de6929b0896ad605d106c324c3112c92249240e531f68fbba"},
+    {file = "onnx-1.11.0-cp39-cp39-manylinux_2_12_i686.manylinux2010_i686.whl", hash = "sha256:ae74bf8fa343b64e2b7fe205091b7f3728887c018ae061d161dd86ec95eb66a8"},
+    {file = "onnx-1.11.0-cp39-cp39-manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:67c6d2654c1c203e5c839a47900b51f588fd0de71bbd497fb193d30a0b3ec1e9"},
+    {file = "onnx-1.11.0-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:43b32a2f20c94aa98866deae9e4218faf0495144ad05402e918fa279674b6df9"},
+    {file = "onnx-1.11.0-cp39-cp39-win32.whl", hash = "sha256:7924d9baa13dbbf335737229f6d068f380d153679f357e495da60007b61cf56d"},
+    {file = "onnx-1.11.0-cp39-cp39-win_amd64.whl", hash = "sha256:3403884c482859f8cf2e0c276da84bd9ac2235d266726f4ddc9625d3fd263218"},
+    {file = "onnx-1.11.0.tar.gz", hash = "sha256:eca224c7c2c8ee4072a0743e4898a84a9bdf8297b5e5910a2632e4c4182ffb2a"},
+]
+onnxconverter-common = [
+    {file = "onnxconverter-common-1.9.0.tar.gz", hash = "sha256:8e129c3602d1ef7619c5f3d34a53005b997137ea769362f1f8dd1ddab57ed216"},
+    {file = "onnxconverter_common-1.9.0-py2.py3-none-any.whl", hash = "sha256:02b58ca3351fba4eddf8503e1421cfecd4ddcf2074aea4d58e3b2410e6f67ce5"},
+]
 packaging = [
     {file = "packaging-21.3-py3-none-any.whl", hash = "sha256:ef103e05f519cdc783ae24ea4e2e0f508a9c99b2d4969652eed6a2e1ea5bd522"},
     {file = "packaging-21.3.tar.gz", hash = "sha256:dd47c42927d89ab911e606518907cc2d3a1f38bbd026385970643f9c5b8ecfeb"},
@@ -1106,6 +1190,32 @@ platformdirs = [
 pluggy = [
     {file = "pluggy-0.13.1-py2.py3-none-any.whl", hash = "sha256:966c145cd83c96502c3c3868f50408687b38434af77734af1e9ca461a4081d2d"},
     {file = "pluggy-0.13.1.tar.gz", hash = "sha256:15b2acde666561e1298d71b523007ed7364de07029219b604cf808bfa1c765b0"},
+]
+protobuf = [
+    {file = "protobuf-3.20.1-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:3cc797c9d15d7689ed507b165cd05913acb992d78b379f6014e013f9ecb20996"},
+    {file = "protobuf-3.20.1-cp310-cp310-manylinux2014_aarch64.whl", hash = "sha256:ff8d8fa42675249bb456f5db06c00de6c2f4c27a065955917b28c4f15978b9c3"},
+    {file = "protobuf-3.20.1-cp310-cp310-manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:cd68be2559e2a3b84f517fb029ee611546f7812b1fdd0aa2ecc9bc6ec0e4fdde"},
+    {file = "protobuf-3.20.1-cp310-cp310-win32.whl", hash = "sha256:9016d01c91e8e625141d24ec1b20fed584703e527d28512aa8c8707f105a683c"},
+    {file = "protobuf-3.20.1-cp310-cp310-win_amd64.whl", hash = "sha256:32ca378605b41fd180dfe4e14d3226386d8d1b002ab31c969c366549e66a2bb7"},
+    {file = "protobuf-3.20.1-cp36-cp36m-macosx_10_9_x86_64.whl", hash = "sha256:9be73ad47579abc26c12024239d3540e6b765182a91dbc88e23658ab71767153"},
+    {file = "protobuf-3.20.1-cp36-cp36m-manylinux_2_5_x86_64.manylinux1_x86_64.whl", hash = "sha256:097c5d8a9808302fb0da7e20edf0b8d4703274d140fd25c5edabddcde43e081f"},
+    {file = "protobuf-3.20.1-cp37-cp37m-macosx_10_9_x86_64.whl", hash = "sha256:e250a42f15bf9d5b09fe1b293bdba2801cd520a9f5ea2d7fb7536d4441811d20"},
+    {file = "protobuf-3.20.1-cp37-cp37m-manylinux2014_aarch64.whl", hash = "sha256:cdee09140e1cd184ba9324ec1df410e7147242b94b5f8b0c64fc89e38a8ba531"},
+    {file = "protobuf-3.20.1-cp37-cp37m-manylinux_2_5_x86_64.manylinux1_x86_64.whl", hash = "sha256:af0ebadc74e281a517141daad9d0f2c5d93ab78e9d455113719a45a49da9db4e"},
+    {file = "protobuf-3.20.1-cp37-cp37m-win32.whl", hash = "sha256:755f3aee41354ae395e104d62119cb223339a8f3276a0cd009ffabfcdd46bb0c"},
+    {file = "protobuf-3.20.1-cp37-cp37m-win_amd64.whl", hash = "sha256:62f1b5c4cd6c5402b4e2d63804ba49a327e0c386c99b1675c8a0fefda23b2067"},
+    {file = "protobuf-3.20.1-cp38-cp38-macosx_10_9_x86_64.whl", hash = "sha256:06059eb6953ff01e56a25cd02cca1a9649a75a7e65397b5b9b4e929ed71d10cf"},
+    {file = "protobuf-3.20.1-cp38-cp38-manylinux2014_aarch64.whl", hash = "sha256:cb29edb9eab15742d791e1025dd7b6a8f6fcb53802ad2f6e3adcb102051063ab"},
+    {file = "protobuf-3.20.1-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.whl", hash = "sha256:69ccfdf3657ba59569c64295b7d51325f91af586f8d5793b734260dfe2e94e2c"},
+    {file = "protobuf-3.20.1-cp38-cp38-win32.whl", hash = "sha256:dd5789b2948ca702c17027c84c2accb552fc30f4622a98ab5c51fcfe8c50d3e7"},
+    {file = "protobuf-3.20.1-cp38-cp38-win_amd64.whl", hash = "sha256:77053d28427a29987ca9caf7b72ccafee011257561259faba8dd308fda9a8739"},
+    {file = "protobuf-3.20.1-cp39-cp39-macosx_10_9_x86_64.whl", hash = "sha256:6f50601512a3d23625d8a85b1638d914a0970f17920ff39cec63aaef80a93fb7"},
+    {file = "protobuf-3.20.1-cp39-cp39-manylinux2014_aarch64.whl", hash = "sha256:284f86a6207c897542d7e956eb243a36bb8f9564c1742b253462386e96c6b78f"},
+    {file = "protobuf-3.20.1-cp39-cp39-manylinux_2_5_x86_64.manylinux1_x86_64.whl", hash = "sha256:7403941f6d0992d40161aa8bb23e12575637008a5a02283a930addc0508982f9"},
+    {file = "protobuf-3.20.1-cp39-cp39-win32.whl", hash = "sha256:db977c4ca738dd9ce508557d4fce0f5aebd105e158c725beec86feb1f6bc20d8"},
+    {file = "protobuf-3.20.1-cp39-cp39-win_amd64.whl", hash = "sha256:7e371f10abe57cee5021797126c93479f59fccc9693dafd6bd5633ab67808a91"},
+    {file = "protobuf-3.20.1-py2.py3-none-any.whl", hash = "sha256:adfc6cf69c7f8c50fd24c793964eef18f0ac321315439d94945820612849c388"},
+    {file = "protobuf-3.20.1.tar.gz", hash = "sha256:adc31566d027f45efe3f44eeb5b1f329da43891634d61c75a5944e9be6dd42c9"},
 ]
 py = [
     {file = "py-1.11.0-py2.py3-none-any.whl", hash = "sha256:607c53218732647dff4acdfcd50cb62615cedf612e72d1724fb1a0cc6405b378"},
@@ -1256,6 +1366,9 @@ scipy = [
 six = [
     {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},
     {file = "six-1.16.0.tar.gz", hash = "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926"},
+]
+skl2onnx = [
+    {file = "skl2onnx-1.11.1-py3-none-any.whl", hash = "sha256:fd02a4eb7eeaa713191bcc1296cee989ea526f0069b0d26aaeeef579bfe82394"},
 ]
 snowballstemmer = [
     {file = "snowballstemmer-2.2.0-py2.py3-none-any.whl", hash = "sha256:c8e1716e83cc398ae16824e5572ae04e0d9fc2c6b985fb0f900f5f0c96ecba1a"},

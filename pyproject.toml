@@ -8,6 +8,7 @@ authors = ["Filippo Barbari <filippo.barbari@studio.unibo.it>"]
 python = "^3.7"
 pynput = "^1.7.6"
 scikit-learn = "^1.0.2"
+skl2onnx = "^1.11.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
