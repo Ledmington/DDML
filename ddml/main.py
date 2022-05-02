@@ -2,6 +2,7 @@
 import sys
 import os
 import argparse
+import termios
 
 import ddml
 from ddml.peers.peer import Peer
@@ -115,3 +116,4 @@ if __name__ == "__main__":
     args = arg_parser.parse_args()
 
     _main(arg_parser, args)
+    termios.tcflush(sys.stdin, termios.TCIOFLUSH)
