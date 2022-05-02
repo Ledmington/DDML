@@ -1,29 +1,25 @@
+# pylint: disable=missing-module-docstring
 import sys
 import argparse
 
+import ddml
 from ddml.peers.peer import Peer
 
 
-def print_version():
-    import ddml
-
+def _print_version():
     print("ddml-peer v" + ddml.__version__)
 
 
-def set_interactive_mode(config: dict):
-    config["interactive"] = True
-
-
-def main(parser, arguments):
+def _main(parser, arguments):
     if hasattr(arguments, "help"):
-        print_version()
+        _print_version()
         parser.print_help()
         sys.exit(0)
     elif hasattr(arguments, "version"):
-        print_version()
+        _print_version()
         sys.exit(0)
 
-    print_version()
+    _print_version()
 
     port = Peer.PORT
     if hasattr(arguments, "port"):
@@ -34,22 +30,23 @@ def main(parser, arguments):
         broadcast = False
 
     if hasattr(arguments, "interactive"):
+        # pylint: disable=import-outside-toplevel
         from ddml.peers.interactive_peer import InteractivePeer
 
         msg = "Starting an interactive peer"
         print(msg + "\n" + "=" * len(msg) + "\n")
-        p = InteractivePeer(port=port, broadcast=broadcast)
-        p.start()
-        p.join()
+        peer = InteractivePeer(port=port, broadcast=broadcast)
+        peer.start()
+        peer.join()
     else:
         msg = "Starting a non-interactive peer"
         print(msg + "\n" + ("=" * len(msg)))
-        p = Peer(port=port, broadcast=broadcast)
-        p.start()
-        p.join()
+        peer = Peer(port=port, broadcast=broadcast)
+        peer.start()
+        peer.join()
 
 
-def setup_parser():
+def _setup_parser():
     parser = argparse.ArgumentParser(
         description="A peer designed to train machine learning models in a "
         + "decentralized and distributed manner.",
@@ -103,8 +100,8 @@ def setup_parser():
 
 
 if __name__ == "__main__":
-    arg_parser = setup_parser()
+    arg_parser = _setup_parser()
 
     args = arg_parser.parse_args()
 
-    main(arg_parser, args)
+    _main(arg_parser, args)

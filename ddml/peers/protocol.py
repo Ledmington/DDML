@@ -1,4 +1,5 @@
 # pylint: disable=missing-module-docstring
+# pylint: disable=too-few-public-methods
 class Protocol:
     """
     Container of all possible messages of the protocol used by the DDML peers.
