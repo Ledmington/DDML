@@ -33,6 +33,9 @@ class InteractivePeer(Peer):
         Peer.__init__(self, port, broadcast, peers, log_fmt=self._CustomFormatter())
         self.logger.info("Interactive peer ready")
 
+    def _print_known_peers(self):
+        self.logger.info("Known peers: %s", list(self.known_peers))
+
     def on_release(self, key):
         """
         Method to handle input from keyboard.
@@ -43,7 +46,7 @@ class InteractivePeer(Peer):
             self.die()
             return False  # stops the listener
         if key.char in "lL":
-            print("\n".join(self.known_peers))
+            self._print_known_peers()
         return True
 
     def start(self):
