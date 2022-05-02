@@ -104,9 +104,11 @@ class Peer(Worker):
         stdout_handler.setFormatter(console_fmt)
         self.logger.addHandler(stdout_handler)
 
-    def is_alive(self):
+    def is_alive(self) -> bool:
         """
-        TODO
+        Checks whether the Peer is alive.
+
+        A peer is considered alive between a call to start() and a call to join().
         """
 
         return self.peer_socket is not None and Worker.is_alive(self)
@@ -163,7 +165,14 @@ class Peer(Worker):
 
     def start(self):
         """
-        TODO
+        Starts the Peer.
+
+        After this call, the Peer is considered alive, meaning that calling is_alive
+        will return True.
+
+        Raises:
+            RuntimeError: if the Peer if already alive
+            RuntimeError: if the Peer has been shut down
         """
 
         if self.is_alive() is True:

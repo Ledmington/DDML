@@ -52,7 +52,5 @@ class InteractivePeer(Peer):
     def start(self):
         super().start()
         # setting up keyboard "shortcuts"
-        with Listener(
-            on_release=self.on_release
-        ) as listener:
+        with Listener(on_release=self.on_release) as listener:
             listener.join()
