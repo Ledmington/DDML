@@ -53,7 +53,6 @@ class InteractivePeer(Peer):
         super().start()
         # setting up keyboard "shortcuts"
         with Listener(
-            # on_press=InteractivePeer.on_press,
             on_release=self.on_release
         ) as listener:
             listener.join()
