@@ -1,5 +1,10 @@
+"""
+This module contains the InteractivePeer class, a wrapper of the Peer class
+which allows the user to directly control it.
+"""
+
 import logging
-from pynput.keyboard import Key, Listener
+from pynput.keyboard import Listener
 
 from ddml.peers.peer import Peer
 from ddml.utils.colors import ColoredFormatter
@@ -10,8 +15,7 @@ class InteractivePeer(Peer):
     Interactive version of Peer.
     """
 
-    class CustomFormatter(ColoredFormatter):
-        # TODO: remove from here
+    class _CustomFormatter(ColoredFormatter):
         erase_one_line = "\033[1A\033[K"
         commands_bar = "[S]top | [L]ist | [T]rain"
 
@@ -26,22 +30,21 @@ class InteractivePeer(Peer):
             )
 
     def __init__(self, port=Peer.PORT, broadcast=True):
-        Peer.__init__(self, port, broadcast, log_fmt=self.CustomFormatter())
+        Peer.__init__(self, port, broadcast, log_fmt=self._CustomFormatter())
         self.logger.info("Interactive peer ready")
 
-    # def on_press(key):
-    #    print("{0} pressed".format(key))
-
     def on_release(self, key):
-        print(f"{key} release")
+        """
+        Method to handle input from keyboard.
+        This method is not meant to be called directly.
+        """
+
         if key.char in "sS":
             self.die()
             return False  # stops the listener
-        elif key.char in "lL":
+        if key.char in "lL":
             print("\n".join(self.known_peers))
-        # elif key == Key.esc:
-        #    # Stop listener
-        #    return False
+        return True
 
     def start(self):
         super().start()
